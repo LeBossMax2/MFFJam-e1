@@ -1,6 +1,7 @@
 package fr.romax.mffjam;
 
 import fr.romax.mffjam.common.CommonProxy;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -24,6 +25,8 @@ public class MFFJam {
 	
 	@SidedProxy(clientSide = CLIENT_PROXY, serverSide = SERVER_PROXY)
 	private static CommonProxy proxy;
+	
+	public static CreativeTabs TAB;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
