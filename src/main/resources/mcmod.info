@@ -1,0 +1,16 @@
+[
+{
+  "modid": "MFFJam1",
+  "name": "The Best MFF Jam first edition",
+  "description": "This is our entry for the first editon of MFF Jam.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["LeBossMax2", "Romain120105"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
