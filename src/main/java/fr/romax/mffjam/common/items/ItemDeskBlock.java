@@ -21,6 +21,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDeskBlock extends ItemBlock
 {
@@ -59,8 +61,8 @@ public class ItemDeskBlock extends ItemBlock
         	if (player.canPlayerEdit(pos, facing, itemstack) && player.canPlayerEdit(secPos, facing, itemstack))
     		{
         		int i = this.getMetadata(itemstack.getMetadata());
-        		IBlockState state0 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
-        		IBlockState state1 = state0.withProperty(BlockDesk.MAIN_PART, true);
+        		IBlockState state1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
+        		IBlockState state0 = state1.withProperty(BlockDesk.MAIN_PART, true);
         		if (this.mayPlace(worldIn, state0, pos, false, facing, (Entity)null) && this.mayPlace(worldIn, state1, secPos, false, facing, (Entity)null))
 	        	{
 	        		if (placeBlockAt(itemstack, player, worldIn, pos, secPos, facing, hitX, hitY, hitZ, state0, state1))
@@ -94,6 +96,34 @@ public class ItemDeskBlock extends ItemBlock
         else
         {
             return iblockstate1.getBlock().isReplaceable(world, pos) && state.getBlock().canPlaceBlockOnSide(world, pos, sidePlacedOn);
+        }
+    }
+    
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack)
+    {
+        Block block = worldIn.getBlockState(pos).getBlock();
+
+        if (block == Blocks.SNOW_LAYER && block.isReplaceable(worldIn, pos))
+        {
+            side = EnumFacing.UP;
+        }
+        else if (!block.isReplaceable(worldIn, pos))
+        {
+            pos = pos.offset(side);
+        }
+        
+        IBlockState iblockstate1 = worldIn.getBlockState(pos);
+
+        if (!worldIn.checkNoEntityCollision(new AxisAlignedBB(pos), null))
+        {
+            return false;
+        }
+        else
+        {
+            return iblockstate1.getBlock().isReplaceable(worldIn, pos) && this.block.canPlaceBlockOnSide(worldIn, pos, side);
         }
     }
 	
