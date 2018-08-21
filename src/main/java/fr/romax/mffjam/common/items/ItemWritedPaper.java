@@ -2,6 +2,8 @@ package fr.romax.mffjam.common.items;
 
 import java.util.List;
 
+import fr.romax.mffjam.MFFJam;
+import fr.romax.mffjam.common.GuiHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
@@ -25,10 +28,15 @@ public class ItemWritedPaper extends Item
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
-		// TODO Create GUI
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		ItemStack stack = player.getHeldItem(hand);
+		if (world.isRemote && stack.hasTagCompound())
+		{
+			player.openGui(MFFJam.instance, GuiHandler.getHandID(hand), world, 0, 0, 0);
+		}
+		
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 	}
 	
 	@Override

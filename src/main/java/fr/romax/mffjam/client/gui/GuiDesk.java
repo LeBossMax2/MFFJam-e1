@@ -1,5 +1,10 @@
 package fr.romax.mffjam.client.gui;
 
+import static fr.romax.mffjam.client.gui.GuiReadMessage.BORDER;
+import static fr.romax.mffjam.client.gui.GuiReadMessage.DESK_ICONS;
+import static fr.romax.mffjam.client.gui.GuiReadMessage.PAPER_ICON_HEIGHT;
+import static fr.romax.mffjam.client.gui.GuiReadMessage.PAPER_ICON_WIDTH;
+
 import java.io.IOException;
 
 import fr.romax.mffjam.MFFJam;
@@ -24,9 +29,6 @@ public class GuiDesk extends GuiContainer
 {
 	
 	private static final ResourceLocation BACKGROUND = new ResourceLocation(MFFJam.MODID, "textures/gui/container/desk_gui.png");
-	private static final ResourceLocation ICONS = new ResourceLocation(MFFJam.MODID, "textures/gui/container/desk_gui_icons.png");
-	
-	private static final int PAPER_ICON_WIDTH = 98, PAPER_ICON_HEIGHT = 115, BORDER = 5;
 	private final TileEntityDesk desk;
 	private final String inventoryName;
 	
@@ -41,7 +43,7 @@ public class GuiDesk extends GuiContainer
 	
 	/** The GuiButton to sign this page. */
 	private GuiButton buttonSign;
-    private GuiButton buttonCancel;
+	private GuiButton buttonCancel;
 	
 	public GuiDesk(TileEntityDesk desk, InventoryPlayer playerInv)
 	{
@@ -151,7 +153,7 @@ public class GuiDesk extends GuiContainer
 				{
 					if (GuiScreen.isKeyComboCtrlV(keyCode))
 					{
-						this.pageInsertIntoCurrent(GuiScreen.getClipboardString());
+						this.insertIntoPage(GuiScreen.getClipboardString());
 					}
 					else
 					{
@@ -166,13 +168,13 @@ public class GuiDesk extends GuiContainer
 							return;
 						case 28:
 						case 156:
-							this.pageInsertIntoCurrent("\n");
+							this.insertIntoPage("\n");
 							return;
 						default:
 							
 							if (ChatAllowedCharacters.isAllowedCharacter(typedChar))
 							{
-								this.pageInsertIntoCurrent(Character.toString(typedChar));
+								this.insertIntoPage(Character.toString(typedChar));
 							}
 						}
 					}
@@ -185,7 +187,7 @@ public class GuiDesk extends GuiContainer
 		}
 	}
 	
-	private void pageInsertIntoCurrent(String toInsert)
+	private void insertIntoPage(String toInsert)
 	{
 		String newContent = this.pageContent + toInsert;
 		int i = this.fontRenderer.getWordWrappedHeight(newContent + "" + TextFormatting.BLACK + "_", PAPER_ICON_WIDTH - 2 * BORDER);
@@ -218,7 +220,7 @@ public class GuiDesk extends GuiContainer
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		if (this.hasPaper())
 		{
-			this.mc.getTextureManager().bindTexture(ICONS);
+			this.mc.getTextureManager().bindTexture(DESK_ICONS);
 			int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
 			this.drawTexturedModalRect(x, this.guiTop + 16, 0, 0, PAPER_ICON_WIDTH, PAPER_ICON_HEIGHT);
 			
