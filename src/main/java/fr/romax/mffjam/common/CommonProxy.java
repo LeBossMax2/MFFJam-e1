@@ -2,6 +2,7 @@ package fr.romax.mffjam.common;
 
 import fr.romax.mffjam.MFFJam;
 import fr.romax.mffjam.common.blocks.ModBlocks;
+import fr.romax.mffjam.common.entities.ModEntities;
 import fr.romax.mffjam.common.items.ModItems;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -13,6 +14,7 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
+		ModEntities.registerEntities();
 		ModNetwork.registerPackets();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(MFFJam.instance, new GuiHandler());
