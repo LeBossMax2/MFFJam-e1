@@ -1,5 +1,6 @@
 package fr.romax.mffjam.common.inventory;
 
+import fr.romax.mffjam.MFFJam;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -7,13 +8,15 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerDesk extends Container
 {
-	private final TileEntityDesk desk;
+	public static final ResourceLocation EMPTY_SLOT_ICON = new ResourceLocation(MFFJam.MODID, "items/empty_slot_paper");
 	
+	private final TileEntityDesk desk;
 	
 	public ContainerDesk(TileEntityDesk desk, InventoryPlayer playerInv)
 	{
@@ -28,6 +31,7 @@ public class ContainerDesk extends Container
 				return stack.getItem() == Items.PAPER;
 			}
 		};
+		paperSlot.setBackgroundName(EMPTY_SLOT_ICON.toString());
 		this.addSlotToContainer(paperSlot);
 		
 		//Player inventory
