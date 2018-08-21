@@ -2,8 +2,12 @@ package fr.romax.mffjam.common.blocks;
 
 import java.util.Random;
 
+import fr.romax.mffjam.MFFJam;
+import fr.romax.mffjam.common.GuiHandler;
+import fr.romax.mffjam.common.utils.InventoryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -14,8 +18,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockDesk extends BlockHorizontal
+public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
 {
 	public static final PropertyBool MAIN_PART = PropertyBool.create("part");
 	private static final AxisAlignedBB[] AABB = new AxisAlignedBB[] {
@@ -35,12 +41,12 @@ public class BlockDesk extends BlockHorizontal
 	public BlockDesk()
 	{
 		super(Material.WOOD);
+        this.hasTileEntity = true;
 		this.setSoundType(SoundType.WOOD);
 		this.setDefaultState(this.getBlockState().getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(MAIN_PART, false));
 	}
-	
 
-
+	@Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer()
     {
@@ -117,6 +123,43 @@ public class BlockDesk extends BlockHorizontal
         return EnumPushReaction.DESTROY;
     }
 	
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return TileEntityDesk.createTile(meta);
+	}
+	
+	@Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        if (!worldIn.isRemote)
+        {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            
+            if (tileentity instanceof TileEntityDesk && ((TileEntityDesk)tileentity).getInventory() != null)
+            {
+                playerIn.openGui(MFFJam.instance, GuiHandler.TILE_ENTITY, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            }
+
+        }
+        return true;
+    }
+	
+	@Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+		if (state.getValue(MAIN_PART))
+		{
+			TileEntity tileentity = worldIn.getTileEntity(pos);
+			
+			if (tileentity instanceof TileEntityDesk)
+			{
+				InventoryUtils.dropInventoryItems(worldIn, pos, ((TileEntityDesk)tileentity).getInventory());
+			}
+		}
+
+        super.breakBlock(worldIn, pos, state);
+    }
 	
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
@@ -133,7 +176,7 @@ public class BlockDesk extends BlockHorizontal
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 0x11)).withProperty(MAIN_PART, meta > 3);
+		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)).withProperty(MAIN_PART, meta > 3);
 	}
 	
 	@Override
