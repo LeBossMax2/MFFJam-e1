@@ -2,6 +2,8 @@ package fr.romax.mffjam.common.inventory;
 
 import fr.romax.mffjam.MFFJam;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
+import fr.romax.mffjam.common.items.ItemWritedPaper;
+import fr.romax.mffjam.common.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -88,6 +90,26 @@ public class ContainerDesk extends Container
 			return returnStack;
 		}
 		return ItemStack.EMPTY;
+	}
+
+	public boolean writePage(EntityPlayer sender, String pageContent, String title)
+	{
+		if (!pageContent.isEmpty() && !title.isEmpty() && pageContent.length() < 512 && title.length() < 16 && this.getSlot(0).getHasStack())
+		{
+			if (sender.addItemStackToInventory(this.writePageToStack(pageContent, title, sender.getName())))
+			{
+				this.getSlot(0).decrStackSize(1);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected ItemStack writePageToStack(String pageContent, String title, String author)
+	{
+		ItemStack stack = new ItemStack(ModItems.writted_paper);
+		ItemWritedPaper.setContent(stack, pageContent, title, author);
+		return stack;
 	}
 	
 }

@@ -13,6 +13,8 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
+		ModNetwork.registerPackets();
+		
 		NetworkRegistry.INSTANCE.registerGuiHandler(MFFJam.instance, new GuiHandler());
 	}
 	

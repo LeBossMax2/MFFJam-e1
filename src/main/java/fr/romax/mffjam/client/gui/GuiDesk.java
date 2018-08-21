@@ -3,8 +3,10 @@ package fr.romax.mffjam.client.gui;
 import java.io.IOException;
 
 import fr.romax.mffjam.MFFJam;
+import fr.romax.mffjam.common.ModNetwork;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
 import fr.romax.mffjam.common.inventory.ContainerDesk;
+import fr.romax.mffjam.common.network.MessageWritePage;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -35,7 +37,7 @@ public class GuiDesk extends GuiContainer
 	private boolean gettingSigned;
 	private String title = "";
 	private String signedName;
-	private String text = "";
+	private String pageContent = "";
 	
 	/** The GuiButton to sign this page. */
 	private GuiButton buttonSign;
@@ -76,7 +78,7 @@ public class GuiDesk extends GuiContainer
 		boolean hasPaper = this.hasPaper();
 		
 		this.buttonSign.visible = hasPaper;
-		this.buttonSign.enabled = !this.text.isEmpty() && (!this.gettingSigned || !this.title.isEmpty() );
+		this.buttonSign.enabled = !this.pageContent.isEmpty() && (!this.gettingSigned || !this.title.isEmpty() );
 		this.buttonCancel.visible = this.gettingSigned && hasPaper;
 	}
 	
@@ -156,9 +158,9 @@ public class GuiDesk extends GuiContainer
 						switch (keyCode)
 						{
 						case 14:
-							if (!this.text.isEmpty())
+							if (!this.pageContent.isEmpty())
 							{
-								this.text = this.text.substring(0, this.text.length() - 1);
+								this.pageContent = this.pageContent.substring(0, this.pageContent.length() - 1);
 							}
 							
 							return;
@@ -185,18 +187,18 @@ public class GuiDesk extends GuiContainer
 	
 	private void pageInsertIntoCurrent(String toInsert)
 	{
-		String newText = this.text + toInsert;
-		int i = this.fontRenderer.getWordWrappedHeight(newText + "" + TextFormatting.BLACK + "_", PAPER_ICON_WIDTH - 2 * BORDER);
+		String newContent = this.pageContent + toInsert;
+		int i = this.fontRenderer.getWordWrappedHeight(newContent + "" + TextFormatting.BLACK + "_", PAPER_ICON_WIDTH - 2 * BORDER);
 		
-		if (i <= PAPER_ICON_HEIGHT - 2 * BORDER && newText.length() < 512)
+		if (i <= PAPER_ICON_HEIGHT - 2 * BORDER && newContent.length() < 512)
 		{
-			this.text = newText;
+			this.pageContent = newContent;
 		}
 	}
 	
-	private void sendPageToServer() throws IOException
+	private void sendPageToServer()
 	{
-		
+		ModNetwork.MOD_CHANNEL.sendToServer(new MessageWritePage(this.inventorySlots.windowId, this.pageContent, this.title));
 	}
 	
 	@Override
@@ -204,6 +206,7 @@ public class GuiDesk extends GuiContainer
 	{
 		this.updateState();
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
 	}
 	
 	@Override
@@ -244,7 +247,7 @@ public class GuiDesk extends GuiContainer
 			}
 			else
 			{
-				String displayText = this.text;
+				String displayText = this.pageContent;
 				
 				if (this.isListening)
 				{
@@ -280,7 +283,7 @@ public class GuiDesk extends GuiContainer
 		{
 			if (this.hasPaper())
 			{
-				if (!this.text.isEmpty())
+				if (!this.pageContent.isEmpty())
 				{
 					if (this.gettingSigned && !this.title.isEmpty())
 					{
