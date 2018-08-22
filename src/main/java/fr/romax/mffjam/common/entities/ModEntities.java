@@ -1,7 +1,9 @@
 package fr.romax.mffjam.common.entities;
 
 import fr.romax.mffjam.MFFJam;
+import fr.romax.mffjam.client.renderers.entity.RenderMessageArrow;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +21,7 @@ public class ModEntities
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders()
 	{
-		//RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
+		RenderingRegistry.registerEntityRenderingHandler(EntityMessageArrow.class, RenderMessageArrow::new);
 	}
 	
 }
