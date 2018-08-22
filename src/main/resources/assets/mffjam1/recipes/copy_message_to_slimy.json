@@ -1,0 +1,14 @@
+{
+	"type": "mffjam1:copy_tags_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:slime_ball"
+		}
+	],
+	"copy_ingredient": {
+		"item": "mffjam1:written_paper"
+	},
+	"result": {
+		"item": "mffjam1:slimy_paper"
+	}
+}

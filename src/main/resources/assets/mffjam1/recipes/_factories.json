@@ -1,0 +1,5 @@
+{
+	"recipes": {
+		"copy_tags_shapeless": "fr.romax.mffjam.common.crafting.ShapelessCopyTagsRecipe$Factory"
+	}
+}
