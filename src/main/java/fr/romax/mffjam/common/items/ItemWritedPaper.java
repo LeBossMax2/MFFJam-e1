@@ -74,9 +74,14 @@ public class ItemWritedPaper extends Item
 	{
 		initNBTTagCompound(stack);
 		
-		stack.getTagCompound().setString("text", content);
-		stack.getTagCompound().setString("title", title);
-		stack.getTagCompound().setString("author", author);
+		setContent(stack.getTagCompound(), content, title, author);
+	}
+	
+	public static void setContent(NBTTagCompound tags, String content, String title, String author)
+	{
+		tags.setString("text", content);
+		tags.setString("title", title);
+		tags.setString("author", author);
 	}
 	
 	public static String getWritedText(ItemStack stack)
