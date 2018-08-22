@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "mffjam1:items/writed_paper"
+        "layer0": "mffjam1:items/message_arrow"
     }
 }
