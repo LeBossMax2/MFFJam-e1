@@ -22,18 +22,21 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 public class EntityHangingMessage extends EntityHanging implements IEntityAdditionalSpawnData
 {
 	private NBTTagCompound itemData;
+	private boolean isSlimy;
 
     public EntityHangingMessage(World worldIn)
     {
         super(worldIn);
         this.itemData = new NBTTagCompound();
+        this.isSlimy = false;
     }
 
-    public EntityHangingMessage(World worldIn, BlockPos hangingPos, EnumFacing facing, NBTTagCompound itemData)
+    public EntityHangingMessage(World worldIn, boolean slimy, BlockPos hangingPos, EnumFacing facing, NBTTagCompound itemData)
     {
         super(worldIn, hangingPos);
         this.updateFacingWithBoundingBox(facing);
-        this.itemData = itemData;
+        this.itemData = itemData == null ? new NBTTagCompound() : itemData.copy();
+        this.isSlimy = slimy;
     }
 	
 	@Override
@@ -41,6 +44,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 	{
 		super.writeEntityToNBT(compound);
 		compound.setTag("itemData", this.itemData);
+		compound.setBoolean("slimy", this.isSlimy);
 	}
 	
 	@Override
@@ -48,6 +52,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 	{
 		super.readEntityFromNBT(compound);
 		this.itemData = compound.getCompoundTag("itemData");
+		this.isSlimy = compound.getBoolean("slimy");
 	}
 
 	@Override
@@ -56,17 +61,19 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 		ByteBufUtils.writeUTF8String(buffer, this.itemData.getString("text"));
 		ByteBufUtils.writeUTF8String(buffer, this.itemData.getString("title"));
 		ByteBufUtils.writeUTF8String(buffer, this.itemData.getString("author"));
+		buffer.writeBoolean(this.isSlimy);
 		buffer.writeByte(this.facingDirection.getHorizontalIndex());
 	}
 
 	@Override
-	public void readSpawnData(ByteBuf additionalData)
+	public void readSpawnData(ByteBuf buffer)
 	{
-		String text = ByteBufUtils.readUTF8String(additionalData);
-		String title = ByteBufUtils.readUTF8String(additionalData);
-		String author = ByteBufUtils.readUTF8String(additionalData);
+		String text = ByteBufUtils.readUTF8String(buffer);
+		String title = ByteBufUtils.readUTF8String(buffer);
+		String author = ByteBufUtils.readUTF8String(buffer);
 		ItemWrittenPaper.setContent(this.itemData, text, title, author);
-		this.updateFacingWithBoundingBox(EnumFacing.getHorizontal(additionalData.readUnsignedByte()));
+		this.isSlimy = buffer.readBoolean();
+		this.updateFacingWithBoundingBox(EnumFacing.getHorizontal(buffer.readUnsignedByte()));
 	}
 
 	@Override
@@ -104,7 +111,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 	
 	protected ItemStack getPage()
 	{
-		ItemStack paper = new ItemStack(ModItems.written_paper);
+		ItemStack paper = new ItemStack(this.isPageSlimy() ? ModItems.slimy_paper : ModItems.written_paper);
 		paper.setTagCompound(this.itemData.copy());
 		return paper;
 	}
@@ -142,6 +149,11 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 	public ItemStack getPickedResult(RayTraceResult target)
 	{
 		return this.getPage();
+	}
+	
+	public boolean isPageSlimy()
+	{
+		return this.isSlimy;
 	}
 	
 }

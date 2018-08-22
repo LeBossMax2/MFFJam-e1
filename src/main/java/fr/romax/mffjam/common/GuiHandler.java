@@ -6,7 +6,6 @@ import fr.romax.mffjam.common.blocks.TileEntityDesk;
 import fr.romax.mffjam.common.entities.EntityHangingMessage;
 import fr.romax.mffjam.common.inventory.ContainerDesk;
 import fr.romax.mffjam.common.items.ItemWrittenPaper;
-import fr.romax.mffjam.common.items.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -43,7 +42,7 @@ public class GuiHandler implements IGuiHandler
 		case ITEM_OFF_HAND:
 			ItemStack stack = player.getHeldItem(id == ITEM_OFF_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
 			
-			if (stack.getItem() == ModItems.written_paper && stack.hasTagCompound())
+			if (stack.getItem() instanceof ItemWrittenPaper && stack.hasTagCompound())
 			{
 				return new GuiReadMessage(ItemWrittenPaper.getWritedText(stack));
 			}

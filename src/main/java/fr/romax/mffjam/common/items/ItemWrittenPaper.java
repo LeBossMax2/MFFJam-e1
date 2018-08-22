@@ -31,9 +31,24 @@ public class ItemWrittenPaper extends Item
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
-		if (world.isRemote && stack.hasTagCompound())
+		
+		if (stack.hasTagCompound())
 		{
-			player.openGui(MFFJam.instance, GuiHandler.getHandID(hand), world, 0, 0, 0);
+			if (hand == EnumHand.MAIN_HAND)
+			{
+				ItemStack otherStack = player.getHeldItemOffhand();
+				
+				if (!otherStack.isEmpty() && otherStack.getItem() instanceof ItemDagger)
+				{
+					// Dagger rightClick has the priority
+					return new ActionResult<>(EnumActionResult.PASS, stack);
+				}
+			}
+			
+			if (world.isRemote)
+			{
+				player.openGui(MFFJam.instance, GuiHandler.getHandID(hand), world, 0, 0, 0);
+			}
 		}
 		
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);

@@ -24,14 +24,14 @@ public class ItemDagger extends ItemSword
 		EnumHand otherHand = hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
 		ItemStack otherStack = player.getHeldItem(otherHand);
 		
-		if (!otherStack.isEmpty() && otherStack.hasTagCompound() && otherStack.getItem() instanceof ItemWrittenPaper)
+		if (!otherStack.isEmpty() && otherStack.hasTagCompound() && otherStack.getItem() == ModItems.written_paper)
 		{
-	        ItemStack itemstack = player.getHeldItem(hand);
+	        ItemStack stack = player.getHeldItem(hand);
 			BlockPos hangingPos = pos.offset(facing);
 			
-			if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(hangingPos, facing, itemstack))
+			if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(hangingPos, facing, stack))
 	        {
-				EntityHangingMessage entityMessage = new EntityHangingMessage(worldIn, hangingPos, facing, otherStack.getTagCompound());
+				EntityHangingMessage entityMessage = new EntityHangingMessage(worldIn, false, hangingPos, facing, otherStack.getTagCompound());
 				if (entityMessage.onValidSurface())
 				{
 					if (!worldIn.isRemote)
@@ -40,9 +40,8 @@ public class ItemDagger extends ItemSword
 						worldIn.spawnEntity(entityMessage);
 					}
 					
-					//playerIn.sendMessage(new TextComponentString("Fusion de la dague et du papier."));
-					player.setHeldItem(otherHand, ItemStack.EMPTY);
-					player.setHeldItem(hand, ItemStack.EMPTY);
+					stack.shrink(1);
+					if (!player.isCreative()) otherStack.shrink(1);
 					return EnumActionResult.SUCCESS;
 				}
 	        }

@@ -42,14 +42,14 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
         GlStateManager.disableLighting();
         GlStateManager.translate((float)x, (float)y, (float)z);
         
-        GlStateManager.rotate(180, 0, 0, 1);
+        GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
-        GlStateManager.rotate(180, 0, 1, 0);
+        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         GlStateManager.enableRescaleNormal();
-        float scale = 1.0f / 16;
+        float scale = 1.0F / 16f;
         GlStateManager.scale(scale, scale, scale);
 
         if (this.renderOutlines)
@@ -57,14 +57,8 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
             GlStateManager.enableColorMaterial();
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
-
-        GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(0.0D, TEXTURE_HEIGHT).endVertex();
-        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(0.0D, 0.0D).endVertex();
-        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(TEXTURE_WIDTH , 0.0D).endVertex();
-        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(TEXTURE_WIDTH , TEXTURE_HEIGHT).endVertex();
-        tessellator.draw();
+        
+        //Front
         GlStateManager.glNormal3f(0.0F, 0.0F, -0.05625F);
         bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
@@ -73,14 +67,21 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
         bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(0.0D , TEXTURE_HEIGHT).endVertex();
         tessellator.draw();
         
-        GlStateManager.translate(-7.0F, -8.0F, -0.01F);
+        //Back
+        double offset = entity.isPageSlimy() ? TEXTURE_WIDTH : 0.0D;
+        GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
+        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(offset, TEXTURE_HEIGHT).endVertex();
+        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(offset, 0.0D).endVertex();
+        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, 0.0D).endVertex();
+        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
+        tessellator.draw();
         
+        GlStateManager.translate(-7.0F, -8.0F, -0.01F);
         GlStateManager.scale(SCALE_TO_TEXT, SCALE_TO_TEXT, SCALE_TO_TEXT);
         
         FontRenderer fontRenderer = this.getFontRendererFromRenderManager();
-		String displayText = entity.pageContent();
-		
-		fontRenderer.drawSplitString(displayText, GuiReadMessage.BORDER + 3, GuiReadMessage.BORDER + 3, GuiReadMessage.PAPER_ICON_WIDTH - 2 * GuiReadMessage.BORDER, 0x000000);
+		fontRenderer.drawSplitString(entity.pageContent(), GuiReadMessage.BORDER + 3, GuiReadMessage.BORDER + 3, GuiReadMessage.PAPER_ICON_WIDTH - 2 * GuiReadMessage.BORDER, 0x000000);
 
         if (this.renderOutlines)
         {
