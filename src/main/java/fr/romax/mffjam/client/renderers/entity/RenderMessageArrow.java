@@ -12,7 +12,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderMessageArrow extends RenderArrow<EntityMessageArrow>
 {
     public static final ResourceLocation ARROW = new ResourceLocation(MFFJam.MODID, "textures/entity/projectiles/message_arrow.png");

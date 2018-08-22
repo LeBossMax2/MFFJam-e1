@@ -3,9 +3,11 @@ package fr.romax.mffjam.common;
 import fr.romax.mffjam.client.gui.GuiDesk;
 import fr.romax.mffjam.client.gui.GuiReadMessage;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
+import fr.romax.mffjam.common.entities.EntityHangingMessage;
 import fr.romax.mffjam.common.inventory.ContainerDesk;
-import fr.romax.mffjam.common.items.ItemWritedPaper;
+import fr.romax.mffjam.common.items.ItemWrittenPaper;
 import fr.romax.mffjam.common.items.ModItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +18,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler
 {
-	public static final int TILE_ENTITY = 0, ITEM_MAIN_HAND = 1, ITEM_OFF_HAND = 2;
+	public static final int TILE_ENTITY = 0, ITEM_MAIN_HAND = 1, ITEM_OFF_HAND = 2, ENTITY = 3;
 	
 	public static int getHandID(EnumHand hand)
 	{
@@ -41,11 +43,18 @@ public class GuiHandler implements IGuiHandler
 		case ITEM_OFF_HAND:
 			ItemStack stack = player.getHeldItem(id == ITEM_OFF_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
 			
-			if (stack.getItem() == ModItems.writted_paper && stack.hasTagCompound())
+			if (stack.getItem() == ModItems.written_paper && stack.hasTagCompound())
 			{
-				return new GuiReadMessage(ItemWritedPaper.getWritedText(stack));
+				return new GuiReadMessage(ItemWrittenPaper.getWritedText(stack));
 			}
 			break;
+		case ENTITY:
+			Entity targetEntity = world.getEntityByID(x);
+			
+			if (targetEntity instanceof EntityHangingMessage)
+			{
+				return new GuiReadMessage(((EntityHangingMessage)targetEntity).pageContent());
+			}
 		}
 		return null;
 	}

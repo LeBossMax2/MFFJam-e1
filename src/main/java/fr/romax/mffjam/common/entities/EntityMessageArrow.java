@@ -1,6 +1,6 @@
 package fr.romax.mffjam.common.entities;
 
-import fr.romax.mffjam.common.items.ItemWritedPaper;
+import fr.romax.mffjam.common.items.ItemWrittenPaper;
 import fr.romax.mffjam.common.items.ModItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -75,7 +75,7 @@ public class EntityMessageArrow extends EntityArrow implements IThrowableEntity,
 		String text = ByteBufUtils.readUTF8String(additionalData);
 		String title = ByteBufUtils.readUTF8String(additionalData);
 		String author = ByteBufUtils.readUTF8String(additionalData);
-		ItemWritedPaper.setContent(this.itemData, text, title, author);
+		ItemWrittenPaper.setContent(this.itemData, text, title, author);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class EntityMessageArrow extends EntityArrow implements IThrowableEntity,
 	{
 		if (!this.world.isRemote && this.world.getGameRules().getBoolean("doMobLoot"))
         {
-			ItemStack dropStack = new ItemStack(ModItems.writted_paper);
+			ItemStack dropStack = new ItemStack(ModItems.written_paper);
 			dropStack.setTagCompound(this.itemData.copy());
 			
 			this.entityDropItem(dropStack, 0.1F);

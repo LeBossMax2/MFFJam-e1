@@ -48,7 +48,7 @@ public class GuiReadMessage extends GuiScreen
 		
 		String displayText = this.pageContent;
 		
-		this.fontRenderer.drawSplitString(displayText, x + BORDER, y + BORDER + 19, PAPER_ICON_WIDTH - 2 * BORDER, 0);
+		this.fontRenderer.drawSplitString(displayText, x + BORDER + 2, y + BORDER + 19, PAPER_ICON_WIDTH - 2 * BORDER, 0x000000);
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

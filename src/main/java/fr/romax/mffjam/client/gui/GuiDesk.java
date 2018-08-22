@@ -241,11 +241,11 @@ public class GuiDesk extends GuiContainer
 				}
 				
 				String editText = I18n.format("page.editTitle");
-				this.fontRenderer.drawString(editText, x + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(editText)) / 2, this.guiTop + BORDER + 19, 0);
-				this.fontRenderer.drawString(displayTitle, x + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(displayTitle)) / 2, this.guiTop + BORDER + 35, 0);
+				this.fontRenderer.drawString(editText, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(editText)) / 2, this.guiTop + BORDER + 19, 0);
+				this.fontRenderer.drawString(displayTitle, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(displayTitle)) / 2, this.guiTop + BORDER + 35, 0);
 				String authorText = I18n.format("page.byAuthor", this.signedName);
-				this.fontRenderer.drawString(TextFormatting.DARK_GRAY + authorText, x + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(authorText)) / 2, this.guiTop + BORDER + 45, 0);
-				this.fontRenderer.drawSplitString(I18n.format("page.finalizeWarning"), x + BORDER, this.guiTop + BORDER + 67, PAPER_ICON_WIDTH - 2 * BORDER, 0);
+				this.fontRenderer.drawString(TextFormatting.DARK_GRAY + authorText, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(authorText)) / 2, this.guiTop + BORDER + 45, 0);
+				this.fontRenderer.drawSplitString(I18n.format("page.finalizeWarning"), x + 2 + BORDER, this.guiTop + BORDER + 67, PAPER_ICON_WIDTH - 2 * BORDER, 0);
 			}
 			else
 			{
@@ -267,7 +267,7 @@ public class GuiDesk extends GuiContainer
 					}
 				}
 				
-				this.fontRenderer.drawSplitString(displayText, x + BORDER, this.guiTop + BORDER + 19, PAPER_ICON_WIDTH - 2 * BORDER, 0);
+				this.fontRenderer.drawSplitString(displayText, x + 2 + BORDER, this.guiTop + BORDER + 19, PAPER_ICON_WIDTH - 2 * BORDER, 0);
 			}
 		}
 	}

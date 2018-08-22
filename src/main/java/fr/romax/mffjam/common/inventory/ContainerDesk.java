@@ -2,7 +2,7 @@ package fr.romax.mffjam.common.inventory;
 
 import fr.romax.mffjam.MFFJam;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
-import fr.romax.mffjam.common.items.ItemWritedPaper;
+import fr.romax.mffjam.common.items.ItemWrittenPaper;
 import fr.romax.mffjam.common.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -107,8 +107,8 @@ public class ContainerDesk extends Container
 
 	protected ItemStack writePageToStack(String pageContent, String title, String author)
 	{
-		ItemStack stack = new ItemStack(ModItems.writted_paper);
-		ItemWritedPaper.setContent(stack, pageContent, title, author);
+		ItemStack stack = new ItemStack(ModItems.written_paper);
+		ItemWrittenPaper.setContent(stack, pageContent, title, author);
 		return stack;
 	}
 	
