@@ -1,6 +1,6 @@
 package fr.romax.mffjam.common.items;
 
-import fr.romax.mffjam.common.entities.EntityHangingMessage;
+import fr.romax.mffjam.common.entities.EntityHangingDaggerMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -31,7 +31,7 @@ public class ItemDagger extends ItemSword
 			
 			if (facing != EnumFacing.DOWN && facing != EnumFacing.UP && player.canPlayerEdit(hangingPos, facing, stack))
 	        {
-				EntityHangingMessage entityMessage = new EntityHangingMessage(worldIn, false, hangingPos, facing, otherStack.getTagCompound());
+				EntityHangingDaggerMessage entityMessage = new EntityHangingDaggerMessage(worldIn, hangingPos, facing, hitX, hitY, hitZ, stack.copy(), otherStack.getTagCompound());
 				if (entityMessage.onValidSurface())
 				{
 					if (!worldIn.isRemote)
@@ -40,7 +40,7 @@ public class ItemDagger extends ItemSword
 						worldIn.spawnEntity(entityMessage);
 					}
 					
-					stack.shrink(1);
+					player.setHeldItem(hand, ItemStack.EMPTY);
 					if (!player.isCreative()) otherStack.shrink(1);
 					return EnumActionResult.SUCCESS;
 				}

@@ -36,7 +36,6 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
 	@Override
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
-		this.bindEntityTexture(entity);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.pushMatrix();
         GlStateManager.disableLighting();
@@ -46,36 +45,15 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
         GlStateManager.enableRescaleNormal();
-        float scale = 1.0F / 16f;
-        GlStateManager.scale(scale, scale, scale);
 
         if (this.renderOutlines)
         {
             GlStateManager.enableColorMaterial();
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
-        
-        //Front
-        GlStateManager.glNormal3f(0.0F, 0.0F, -0.05625F);
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
-        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(TEXTURE_WIDTH, 0.0D).endVertex();
-        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(0.0D , 0.0D).endVertex();
-        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(0.0D , TEXTURE_HEIGHT).endVertex();
-        tessellator.draw();
-        
-        //Back
-        double offset = entity.isPageSlimy() ? TEXTURE_WIDTH : 0.0D;
-        GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(offset, TEXTURE_HEIGHT).endVertex();
-        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(offset, 0.0D).endVertex();
-        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, 0.0D).endVertex();
-        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
-        tessellator.draw();
+
+		this.renderEntity(entity);
         
         GlStateManager.translate(-7.0F, -8.0F, -0.01F);
         GlStateManager.scale(SCALE_TO_TEXT, SCALE_TO_TEXT, SCALE_TO_TEXT);
@@ -94,5 +72,35 @@ public class RenderHangingMessage<T extends EntityHangingMessage> extends Render
         GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
+	
+	protected void renderEntity(T entity)
+	{
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        
+        float scale = 1.0F / 16f;
+        GlStateManager.scale(scale, scale, scale);
+        
+		this.bindEntityTexture(entity);
+        //Front
+        GlStateManager.glNormal3f(0.0F, 0.0F, -0.05625F);
+        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
+        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(TEXTURE_WIDTH, 0.0D).endVertex();
+        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(0.0D , 0.0D).endVertex();
+        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(0.0D , TEXTURE_HEIGHT).endVertex();
+        tessellator.draw();
+        
+        //Back
+        double offset = entity.isPageSlimy() ? TEXTURE_WIDTH : 0.0D;
+        GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
+        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos(-7.0D, 8.0D, 0.0D).tex(offset, TEXTURE_HEIGHT).endVertex();
+        bufferbuilder.pos(-7.0D,-8.0D, 0.0D).tex(offset, 0.0D).endVertex();
+        bufferbuilder.pos( 7.0D,-8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, 0.0D).endVertex();
+        bufferbuilder.pos( 7.0D, 8.0D, 0.0D).tex(offset + TEXTURE_WIDTH, TEXTURE_HEIGHT).endVertex();
+        tessellator.draw();
+	}
+	
 	
 }

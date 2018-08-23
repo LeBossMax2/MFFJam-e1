@@ -116,7 +116,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 		return paper;
 	}
 	
-	private void dropItems()
+	protected void dropItems()
 	{
 		this.entityDropItem(this.getPage(), 0.0F);
 	}
