@@ -8,6 +8,7 @@
     		"false": {
     			"model": "forge:multi-layer",
     			"custom": {
+                    "base": "mffjam1:desk_sec_solid",
     				"Solid": "mffjam1:desk_sec_solid",
     				"Cutout": "mffjam1:desk_sec_cutout",
     				"Translucent": "mffjam1:desk_sec_translucent"
