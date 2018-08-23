@@ -1,12 +1,24 @@
 {
+    "forge_marker": 1,
     "variants": {
-        "facing=north,part=false": { "model": "mffjam1:desk_sec" },
-        "facing=east,part=false":  { "model": "mffjam1:desk_sec", "y": 90 },
-        "facing=south,part=false": { "model": "mffjam1:desk_sec", "y": 180 },
-        "facing=west,part=false":  { "model": "mffjam1:desk_sec", "y": 270 },
-        "facing=north,part=true": { "model": "mffjam1:desk_main" },
-        "facing=east,part=true":  { "model": "mffjam1:desk_main", "y": 90 },
-        "facing=south,part=true": { "model": "mffjam1:desk_main", "y": 180 },
-        "facing=west,part=true":  { "model": "mffjam1:desk_main", "y": 270 }
+    	"part": {
+    		"true": {
+    			"model": "mffjam1:desk_main"
+    		},
+    		"false": {
+    			"model": "forge:multi-layer",
+    			"custom": {
+    				"Solid": "mffjam1:desk_sec_solid",
+    				"Cutout": "mffjam1:desk_sec_cutout",
+    				"Translucent": "mffjam1:desk_sec_translucent"
+    			}
+    		}
+    	},
+    	"facing": {
+    		"north": { },
+    		"east": { "y": 90 },
+    		"south": { "y": 180 },
+    		"west": { "y": 270 }
+    	}
     }
 }

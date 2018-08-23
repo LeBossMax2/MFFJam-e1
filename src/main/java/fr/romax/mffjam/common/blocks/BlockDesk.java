@@ -26,8 +26,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
 {
@@ -45,13 +43,13 @@ public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
 		this.setSoundType(SoundType.WOOD);
 		this.setDefaultState(this.getBlockState().getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(MAIN_PART, false));
 	}
-
+	
 	@Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
-        return BlockRenderLayer.SOLID;
-    }
+	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer)
+	{
+		// The second part of the model needs to be rendered in all layers except CUTOUT_MIPPED
+		return state.getValue(MAIN_PART) ? layer == BlockRenderLayer.SOLID : layer != BlockRenderLayer.CUTOUT_MIPPED;
+	}
 	
 	@Override
 	public boolean isFullCube(IBlockState state)
