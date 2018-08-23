@@ -59,7 +59,7 @@ public class GuiDesk extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
-		this.buttonSign = this.addButton(new GuiButton(0, this.width / 2 - 100, this.guiTop + 136, 98, 20, I18n.format("book.signButton")));
+		this.buttonSign = this.addButton(new GuiButton(0, this.width / 2 - 100, this.guiTop + 136, 98, 20, I18n.format("page.signButton")));
 		this.buttonCancel = this.addButton(new GuiButton(1, this.width / 2 + 2, this.guiTop + 136, 98, 20, I18n.format("gui.cancel")));
 	}
 	

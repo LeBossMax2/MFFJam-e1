@@ -1,0 +1,16 @@
+tile.desk.name=Bureau
+
+item.dagger.name=Dague
+item.written_paper.name=Page écrite
+item.message_arrow.name=Flèche avec message
+item.slimy_paper.name=Page écrite gluante
+
+itemGroup.mffjamtab=MFFJam : Roamx
+
+entity.message_arrow.name=Flèche message
+entity.hanging_message.name=Message suspendu
+
+page.signButton=Signer
+page.editTitle=Titre de la page :
+page.finalizeWarning=Attention ! La page n'est plus modifiable une fois signée.
+page.byAuthor=de %s

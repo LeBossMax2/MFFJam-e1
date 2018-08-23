@@ -1,0 +1,16 @@
+tile.desk.name=Desk
+
+item.dagger.name=Dagger
+item.written_paper.name=Written Paper
+item.message_arrow.name=Message Arrow
+item.slimy_paper.name=Slimy Written Paper
+
+itemGroup.mffjamtab=Roamx's MFFJam Tab
+
+entity.message_arrow.name=Message Arrow
+entity.hanging_message.name=Hanging Message
+
+page.signButton=Sign
+page.editTitle=Enter Page Title:
+page.finalizeWarning=Note! When you sign the page, it will no longer be editable.
+page.byAuthor=by %s
