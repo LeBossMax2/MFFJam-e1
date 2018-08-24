@@ -1,6 +1,5 @@
 package fr.romax.medievalcom.common.items;
 
-import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.common.GuiHandler;
 import fr.romax.medievalcom.common.entities.EntityHangingMessage;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +45,7 @@ public class ItemSlimyPaper extends ItemWrittenPaper
 		
 		if (stack.hasTagCompound() && world.isRemote)
 		{
-			player.openGui(MedievalCommunications.instance, GuiHandler.getHandID(hand), world, 0, 0, 0);
+			GuiHandler.openItemGui(world, player, hand);
 		}
 		
 		return new ActionResult<>(EnumActionResult.SUCCESS, stack);

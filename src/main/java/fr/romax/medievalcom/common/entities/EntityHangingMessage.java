@@ -1,6 +1,5 @@
 package fr.romax.medievalcom.common.entities;
 
-import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.common.GuiHandler;
 import fr.romax.medievalcom.common.items.ItemWrittenPaper;
 import fr.romax.medievalcom.common.items.ModItems;
@@ -135,7 +134,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 		if (this.world.isRemote)
 		{
 			// Show the message in a gui
-			player.openGui(MedievalCommunications.MODID, GuiHandler.ENTITY, this.world, this.getEntityId(), 0, 0);
+			GuiHandler.openEntityGui(this.world, player, this);
 		}
 		return true;
 	}

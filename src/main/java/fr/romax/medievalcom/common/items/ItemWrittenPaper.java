@@ -2,7 +2,6 @@ package fr.romax.medievalcom.common.items;
 
 import java.util.List;
 
-import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.common.GuiHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -42,7 +41,7 @@ public class ItemWrittenPaper extends Item
 			
 			if (world.isRemote)
 			{
-				player.openGui(MedievalCommunications.instance, GuiHandler.getHandID(hand), world, 0, 0, 0);
+				GuiHandler.openItemGui(world, player, hand);
 			}
 		}
 		

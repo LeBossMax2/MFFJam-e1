@@ -1,5 +1,6 @@
 package fr.romax.medievalcom.common;
 
+import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.client.gui.GuiDesk;
 import fr.romax.medievalcom.client.gui.GuiReadMessage;
 import fr.romax.medievalcom.common.blocks.TileEntityDesk;
@@ -22,6 +23,21 @@ public class GuiHandler implements IGuiHandler
 	public static int getHandID(EnumHand hand)
 	{
 		return hand == EnumHand.OFF_HAND ? ITEM_OFF_HAND : ITEM_MAIN_HAND;
+	}
+	
+	public static void openEntityGui(World world, EntityPlayer player, Entity entityIn)
+	{
+		player.openGui(MedievalCommunications.instance, ENTITY, world, entityIn.getEntityId(), 0, 0);
+	}
+	
+	public static void openTileGui(World world, EntityPlayer player, BlockPos pos)
+	{
+		player.openGui(MedievalCommunications.instance, TILE_ENTITY, world, pos.getX(), pos.getY(), pos.getZ());
+	}
+	
+	public static void openItemGui(World world, EntityPlayer player, EnumHand hand)
+	{
+		player.openGui(MedievalCommunications.instance, getHandID(hand), world, 0, 0, 0);
 	}
 	
 	@Override

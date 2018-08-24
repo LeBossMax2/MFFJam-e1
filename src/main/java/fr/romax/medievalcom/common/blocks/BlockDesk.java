@@ -2,7 +2,6 @@ package fr.romax.medievalcom.common.blocks;
 
 import java.util.Random;
 
-import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.common.GuiHandler;
 import fr.romax.medievalcom.common.utils.InventoryUtils;
 import net.minecraft.block.Block;
@@ -136,7 +135,7 @@ public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
             
             if (tileentity instanceof TileEntityDesk && ((TileEntityDesk)tileentity).getInventory() != null)
             {
-                playerIn.openGui(MedievalCommunications.instance, GuiHandler.TILE_ENTITY, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            	GuiHandler.openTileGui(worldIn, playerIn, pos);
             }
 
         }
