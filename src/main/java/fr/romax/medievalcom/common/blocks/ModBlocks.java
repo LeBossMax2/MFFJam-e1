@@ -51,7 +51,7 @@ public class ModBlocks
 	protected static Block init(Block block, String name)
 	{
 		block.setRegistryName(new ResourceLocation(MedievalCommunications.MODID, name));
-		block.setUnlocalizedName(name);
+		block.setTranslationKey(name);
 		block.setCreativeTab(MedievalCommunications.TAB);
 		return block;
 	}
@@ -65,7 +65,7 @@ public class ModBlocks
 	protected static Item init(Item item, Block block)
 	{
 		item.setRegistryName(block.getRegistryName());
-		item.setUnlocalizedName(block.getRegistryName().getResourcePath());
+		item.setTranslationKey(block.getRegistryName().getPath());
 		item.setCreativeTab(MedievalCommunications.TAB);
 		return item;
 	}

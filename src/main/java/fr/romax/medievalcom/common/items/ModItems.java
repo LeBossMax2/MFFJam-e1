@@ -42,7 +42,7 @@ public class ModItems
 	protected static Item init(Item item, String name)
 	{
 		item.setRegistryName(new ResourceLocation(MedievalCommunications.MODID, name));
-		item.setUnlocalizedName(name);
+		item.setTranslationKey(name);
 		item.setCreativeTab(MedievalCommunications.TAB);
 		return item;
 	}

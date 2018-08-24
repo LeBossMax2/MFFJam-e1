@@ -15,7 +15,7 @@ public class TileEntityDeskSec extends TileEntityDesk
 	{
 		if (!this.inventoryInit)
 		{
-			EnumFacing dir = EnumFacing.getHorizontal(this.getBlockMetadata() + 1);
+			EnumFacing dir = EnumFacing.byHorizontalIndex(this.getBlockMetadata() + 1);
 			BlockPos mainPos = this.pos.offset(dir);
 			if (this.world.isBlockLoaded(mainPos))
 			{

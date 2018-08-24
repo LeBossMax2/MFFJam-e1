@@ -116,7 +116,7 @@ public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
     }
 	
 	@Override
-    public EnumPushReaction getMobilityFlag(IBlockState state)
+    public EnumPushReaction getPushReaction(IBlockState state)
     {
         return EnumPushReaction.DESTROY;
     }
@@ -174,7 +174,7 @@ public class BlockDesk extends BlockHorizontal implements ITileEntityProvider
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)).withProperty(MAIN_PART, meta > 3);
+		return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta & 3)).withProperty(MAIN_PART, meta > 3);
 	}
 	
 	@Override

@@ -6,15 +6,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class MedievalTab extends CreativeTabs{
+public class MedievalTab extends CreativeTabs
+{
 
-	public MedievalTab(String label) {
+	public MedievalTab(String label)
+	{
 		super(label);
 	}
 
 	@Override
     @SideOnly(Side.CLIENT)
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon()
+	{
 		return new ItemStack(Items.ARROW);
 	}
 

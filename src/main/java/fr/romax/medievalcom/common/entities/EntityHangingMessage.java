@@ -73,7 +73,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 		String author = ByteBufUtils.readUTF8String(buffer);
 		ItemWrittenPaper.setContent(this.itemData, text, title, author);
 		this.isSlimy = buffer.readBoolean();
-		this.updateFacingWithBoundingBox(EnumFacing.getHorizontal(buffer.readUnsignedByte()));
+		this.updateFacingWithBoundingBox(EnumFacing.byHorizontalIndex(buffer.readUnsignedByte()));
 	}
 
 	@Override
