@@ -58,7 +58,8 @@ public class ModBlocks
 	
 	protected static void registerTile(Class<? extends TileEntity> tileClass, String name)
 	{
-		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(MedievalCommunications.MODID, name));
+		//Use this deprecated method for compatibility with older versions of forge
+		GameRegistry.registerTileEntity(tileClass, MedievalCommunications.MODID + ":" + name);
 	}
 	
 	protected static Item init(Item item, Block block)

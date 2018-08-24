@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ModNetwork
 {
 	
-	public static final SimpleNetworkWrapper MOD_CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel(MedievalCommunications.MODID);
+	public static final SimpleNetworkWrapper MOD_CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel(MedievalCommunications.REDUCED_NAME);
 	
 	private static final ServerMessageHandler SERVER_MESSAGE_HANDLER = new ServerMessageHandler();
 	private static final ClientMessageHandler CLIENT_MESSAGE_HANDLER = new ClientMessageHandler();
