@@ -5,6 +5,9 @@ item.written_paper.name=Page écrite
 item.message_arrow.name=Flèche avec message
 item.slimy_paper.name=Page écrite gluante
 
+item.dagger.tooltip=Permet d'accrocher un message sur un mur
+item.message_arrow.tooltip=Clic droit pour détacher le message
+
 itemGroup.mffjamtab=MFFJam : Roamx
 
 entity.message_arrow.name=Flèche message

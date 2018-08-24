@@ -5,6 +5,9 @@ item.written_paper.name=Written Paper
 item.message_arrow.name=Message Arrow
 item.slimy_paper.name=Slimy Written Paper
 
+item.dagger.tooltip=Allows you to hang a message on a wall
+item.message_arrow.tooltip=Right click to detach the message
+
 itemGroup.mffjamtab=Roamx's MFFJam Tab
 
 entity.message_arrow.name=Message Arrow

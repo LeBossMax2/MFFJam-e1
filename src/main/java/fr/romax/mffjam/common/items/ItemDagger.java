@@ -1,6 +1,10 @@
 package fr.romax.mffjam.common.items;
 
+import java.util.List;
+
 import fr.romax.mffjam.common.entities.EntityHangingDaggerMessage;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -48,6 +52,12 @@ public class ItemDagger extends ItemSword
 			return EnumActionResult.FAIL;
 		}
 		return EnumActionResult.PASS;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	{
+		tooltip.add(I18n.format("item.dagger.tooltip"));
 	}
 	
 }
