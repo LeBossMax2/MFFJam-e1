@@ -3,9 +3,12 @@ package fr.romax.medievalcom.common;
 import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.client.gui.GuiDesk;
 import fr.romax.medievalcom.client.gui.GuiReadMessage;
+import fr.romax.medievalcom.client.gui.GuiVillagerMessenger;
 import fr.romax.medievalcom.common.blocks.TileEntityDesk;
 import fr.romax.medievalcom.common.entities.EntityHangingMessage;
+import fr.romax.medievalcom.common.entities.EntityVillagerMessager;
 import fr.romax.medievalcom.common.inventory.ContainerDesk;
+import fr.romax.medievalcom.common.inventory.ContainerVillagerMessenger;
 import fr.romax.medievalcom.common.items.ItemWrittenPaper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,6 +73,10 @@ public class GuiHandler implements IGuiHandler
 			{
 				return new GuiReadMessage(((EntityHangingMessage)targetEntity).pageContent());
 			}
+			else if (targetEntity instanceof EntityVillagerMessager)
+			{
+				return new GuiVillagerMessenger((EntityVillagerMessager)targetEntity, player.inventory);
+			}
 		}
 		return null;
 	}
@@ -77,14 +84,23 @@ public class GuiHandler implements IGuiHandler
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
 	{
-		if (id == TILE_ENTITY)
+		switch (id)
 		{
+		case TILE_ENTITY:
 			TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 			
 			if (tile instanceof TileEntityDesk)
 			{
 				TileEntityDesk desk = (TileEntityDesk)tile;
 				return desk == null ? null : new ContainerDesk(desk, player.inventory);
+			}
+			break;
+		case ENTITY:
+			Entity targetEntity = world.getEntityByID(x);
+			
+			if (targetEntity instanceof EntityVillagerMessager)
+			{
+				return new ContainerVillagerMessenger((EntityVillagerMessager)targetEntity, player.inventory);
 			}
 		}
 		return null;
