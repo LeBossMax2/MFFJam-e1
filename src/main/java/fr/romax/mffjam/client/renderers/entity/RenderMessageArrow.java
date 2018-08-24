@@ -38,21 +38,12 @@ public class RenderMessageArrow extends RenderArrow<EntityMessageArrow>
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.pushMatrix();
         GlStateManager.disableLighting();
+        GlStateManager.disableCull();
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        int i = 0;
-        float f = 0.0F;
-        float f1 = 0.5F;
-        float f2 = 0.0F;
-        float f3 = 0.15625F;
-        float f4 = 0.0F;
-        float f5 = 0.15625F;
-        float f6 = 0.15625F;
-        float f7 = 0.3125F;
-        float f8 = 0.05625F;
         GlStateManager.enableRescaleNormal();
         float f9 = entity.arrowShake - partialTicks;
 
@@ -61,8 +52,7 @@ public class RenderMessageArrow extends RenderArrow<EntityMessageArrow>
             float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
             GlStateManager.rotate(f10, 0.0F, 0.0F, 1.0F);
         }
-
-        //GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
+        
         GlStateManager.scale(0.05625F, 0.05625F, 0.05625F);
         GlStateManager.translate(-4.0F, 0.0F, 0.0F);
 
@@ -71,22 +61,35 @@ public class RenderMessageArrow extends RenderArrow<EntityMessageArrow>
             GlStateManager.enableColorMaterial();
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
-
-        GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(-4.0D, 0.0D, 0.0D).tex(0.0D , 0.3125D).endVertex();
-        bufferbuilder.pos(-4.0D,-9.0D, 0.0D).tex(0.0D , 0.59375D).endVertex();
-        bufferbuilder.pos( 4.0D,-9.0D, 0.0D).tex(0.25D, 0.59375D).endVertex();
-        bufferbuilder.pos( 4.0D, 0.0D, 0.0D).tex(0.25D, 0.3125D).endVertex();
-        tessellator.draw();
-        GlStateManager.glNormal3f(0.0F, 0.0F, -0.05625F);
-        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos( 4.0D, 0.0D, 0.0D).tex(0.0D , 0.3125D).endVertex();
-        bufferbuilder.pos( 4.0D,-9.0D, 0.0D).tex(0.0D , 0.59375D).endVertex();
-        bufferbuilder.pos(-4.0D,-9.0D, 0.0D).tex(0.25D, 0.59375D).endVertex();
-        bufferbuilder.pos(-4.0D, 0.0D, 0.0D).tex(0.25D, 0.3125D).endVertex();
-        tessellator.draw();
-
+        
+        float texturePixel = 1.0F / 32.0F;
+        float texW = 8 * texturePixel;
+        
+        
+        for (int i = 0; i < 4; i++)
+        {
+        	float v = texturePixel * (10 + i);
+        	GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
+        	bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        	bufferbuilder.pos(-4.0D,-0.5D, 0.5D).tex(0.0D, v).endVertex();
+        	bufferbuilder.pos(-4.0D,-0.5D,-0.5D).tex(0.0D, v + texturePixel).endVertex();
+        	bufferbuilder.pos( 4.0D,-0.5D,-0.5D).tex(texW, v + texturePixel).endVertex();
+        	bufferbuilder.pos( 4.0D,-0.5D, 0.5D).tex(texW, v).endVertex();
+        	tessellator.draw();
+        	
+            GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+        }
+        
+    	float v = texturePixel * 14;
+    	GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
+    	bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+    	bufferbuilder.pos(-4.0D,-0.5D, 0.5D).tex(0.0D, v).endVertex();
+    	bufferbuilder.pos(-4.0D,-2.5D, 0.5D).tex(0.0D, v + texturePixel * 2).endVertex();
+    	bufferbuilder.pos( 4.0D,-2.5D, 0.5D).tex(texW, v + texturePixel * 2).endVertex();
+    	bufferbuilder.pos( 4.0D,-0.5D, 0.5D).tex(texW, v).endVertex();
+    	tessellator.draw();
+    	
+    	
         if (this.renderOutlines)
         {
             GlStateManager.disableOutlineMode();
@@ -94,6 +97,7 @@ public class RenderMessageArrow extends RenderArrow<EntityMessageArrow>
         }
 
         GlStateManager.disableRescaleNormal();
+    	GlStateManager.enableCull();
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);

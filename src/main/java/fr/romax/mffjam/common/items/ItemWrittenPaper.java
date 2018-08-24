@@ -22,11 +22,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemWrittenPaper extends Item
 {
 	
-	public ItemWrittenPaper()
-	{
-		this.setMaxStackSize(1);
-	}
-	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{

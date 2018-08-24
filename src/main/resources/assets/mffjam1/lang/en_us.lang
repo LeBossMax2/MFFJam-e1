@@ -9,6 +9,7 @@ itemGroup.mffjamtab=Roamx's MFFJam Tab
 
 entity.message_arrow.name=Message Arrow
 entity.hanging_message.name=Hanging Message
+entity.hanging_dagger_message.name=Hanging Message With A Dagger
 
 page.signButton=Sign
 page.editTitle=Enter Page Title:

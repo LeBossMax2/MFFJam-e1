@@ -9,6 +9,7 @@ itemGroup.mffjamtab=MFFJam : Roamx
 
 entity.message_arrow.name=Flèche message
 entity.hanging_message.name=Message suspendu
+entity.hanging_dagger_message.name=Message suspendu par une dague
 
 page.signButton=Signer
 page.editTitle=Titre de la page :

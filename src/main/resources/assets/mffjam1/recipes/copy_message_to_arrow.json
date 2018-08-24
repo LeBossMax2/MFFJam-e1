@@ -3,6 +3,9 @@
 	"ingredients": [
 		{
 			"item": "minecraft:arrow"
+		},
+		{
+			"item": "minecraft:string"
 		}
 	],
 	"copy_ingredient": {
