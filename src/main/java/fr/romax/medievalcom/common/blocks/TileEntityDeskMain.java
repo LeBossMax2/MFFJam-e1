@@ -1,32 +1,38 @@
 package fr.romax.medievalcom.common.blocks;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TileEntityDeskMain extends TileEntityDesk
 {
-	private final ItemStackHandler inventory = new ItemStackHandler();
-
+	private final ItemStackHandler inventory = new ItemStackHandler()
+	{
+		@Override
+		public boolean isItemValid(int slot, ItemStack stack)
+		{
+			return stack.getItem() == Items.PAPER;
+		}
+		
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
+		{
+			if (stack.isEmpty() || !this.isItemValid(slot, stack))
+			{
+				return stack;
+			}
+			else
+			{
+				return super.insertItem(slot, stack, simulate);
+			}
+		}
+	};
+	
 	@Override
 	public IItemHandler getInventory()
 	{
 		return this.inventory;
-	}
-	
-	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
-	{
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-	}
-	
-	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
-	{
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(this.inventory) : super.getCapability(capability, facing);
 	}
 	
 	@Override

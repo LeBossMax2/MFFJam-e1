@@ -27,6 +27,11 @@ public class CommonProxy {
 		ModNetwork.registerPackets();
 		StructureHandler.registerStructures();
 		
+		NetworkRegistry.INSTANCE.registerGuiHandler(MedievalCommunications.instance, new GuiHandler());
+	}
+	
+	public void init(FMLInitializationEvent event)
+	{
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.message_arrow, new BehaviorProjectileDispense()
 		{
 			@Override
@@ -37,11 +42,7 @@ public class CommonProxy {
                 return entitytippedarrow;
 			}
 		});
-		
-		NetworkRegistry.INSTANCE.registerGuiHandler(MedievalCommunications.instance, new GuiHandler());
 	}
-	
-	public void init(FMLInitializationEvent event) {}
 	
 	public void postInit(FMLPostInitializationEvent event) {}
 

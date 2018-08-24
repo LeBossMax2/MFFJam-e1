@@ -6,7 +6,6 @@ import fr.romax.medievalcom.common.items.ItemWrittenPaper;
 import fr.romax.medievalcom.common.items.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -25,14 +24,7 @@ public class ContainerDesk extends Container
 		this.desk = desk;
 		
 		//Desk inventory
-		Slot paperSlot = new SlotItemHandler(desk.getInventory(), 0, 18, 100)
-		{
-			@Override
-			public boolean isItemValid(ItemStack stack)
-			{
-				return stack.getItem() == Items.PAPER;
-			}
-		};
+		Slot paperSlot = new SlotItemHandler(desk.getInventory(), 0, 18, 100);
 		paperSlot.setBackgroundName(EMPTY_SLOT_ICON.toString());
 		this.addSlotToContainer(paperSlot);
 		
