@@ -1,42 +1,59 @@
 package fr.romax.medievalcom.common.items;
 
-import fr.romax.medievalcom.common.entities.EntityMessageArrow;
-import fr.romax.medievalcom.common.registry.ItemsRegistry;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
-import net.minecraft.dispenser.IPosition;
-import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import fr.romax.medievalcom.MedievalCommunications;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ModItems {
+@ObjectHolder(MedievalCommunications.MODID)
+@EventBusSubscriber(modid = MedievalCommunications.MODID)
+public class ModItems
+{
+	public static final ItemDagger dagger = null;
+	public static final ItemWrittenPaper written_paper = null;
+	public static final ItemMessageArrow message_arrow = null;
+	public static final ItemSlimyPaper slimy_paper = null;
 
-	public static ItemDagger dagger = new ItemDagger();
-	public static ItemWrittenPaper written_paper = new ItemWrittenPaper();
-	public static ItemMessageArrow message_arrow = new ItemMessageArrow();
-	public static ItemSlimyPaper slimy_paper = new ItemSlimyPaper();
-
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event)
+	{
+		event.getRegistry().registerAll(
+			init(new ItemDagger(), "dagger"),
+			init(new ItemWrittenPaper(), "written_paper"),
+			init(new ItemMessageArrow(), "message_arrow"),
+			init(new ItemSlimyPaper(), "slimy_paper"));
+	}
 	
-	public static void registerItems() {
-		// A utiliser : ItemsRegistry.register(block, name);
-		ItemsRegistry.register(dagger, "dagger");
-		ItemsRegistry.register(written_paper, "written_paper");
-		ItemsRegistry.register(message_arrow, "message_arrow");
-		ItemsRegistry.register(slimy_paper, "slimy_paper");
-		
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(message_arrow, new BehaviorProjectileDispense()
-		{
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event)
+	{
+		registerItemRenders(dagger, written_paper, message_arrow, slimy_paper);
+	}
+	
+	protected static Item init(Item item, String name)
+	{
+		item.setRegistryName(new ResourceLocation(MedievalCommunications.MODID, name));
+		item.setUnlocalizedName(name);
+		item.setCreativeTab(MedievalCommunications.TAB);
+		return item;
+	}
 
-			@Override
-			protected IProjectile getProjectileEntity(World world, IPosition position, ItemStack stack)
-			{
-				EntityMessageArrow entitytippedarrow = new EntityMessageArrow(world, position.getX(), position.getY(), position.getZ(), stack.getTagCompound());
-                entitytippedarrow.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
-                return entitytippedarrow;
-			}
-			
-		});
+	@SideOnly(Side.CLIENT)
+	protected static void registerItemRenders(Item... items)
+	{
+		for (Item item : items)
+		{
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		}
 	}
 	
 }
