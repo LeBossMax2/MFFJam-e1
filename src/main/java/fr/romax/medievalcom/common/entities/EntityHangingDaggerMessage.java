@@ -51,7 +51,7 @@ public class EntityHangingDaggerMessage extends EntityHangingMessage
 		super.readEntityFromNBT(compound);
         this.daggerX = compound.hasKey("daggerX", NBT.TAG_FLOAT) ? compound.getFloat("daggerX") : 0.5F;
         this.daggerY = compound.hasKey("daggerY", NBT.TAG_FLOAT) ? compound.getFloat("daggerY") : 0.5f;
-        this.daggerStack = compound.hasKey("daggerItem", NBT.TAG_COMPOUND) ? new ItemStack(compound.getCompoundTag("daggerItem")) : new ItemStack(ModItems.dagger);
+        this.daggerStack = compound.hasKey("daggerItem", NBT.TAG_COMPOUND) ? new ItemStack(compound.getCompoundTag("daggerItem")) : new ItemStack(ModItems.DAGGER);
 	}
 
 	@Override

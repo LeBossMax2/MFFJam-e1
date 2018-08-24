@@ -7,6 +7,7 @@ import fr.romax.medievalcom.client.renderers.entity.RenderHangingDaggerMessage;
 import fr.romax.medievalcom.client.renderers.entity.RenderHangingMessage;
 import fr.romax.medievalcom.client.renderers.entity.RenderMessageArrow;
 import fr.romax.medievalcom.client.renderers.entity.RenderVillagerMessager;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -20,10 +21,10 @@ public class ModEntities
 	
 	public static void registerEntities()
 	{
-		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, "message_arrow"), EntityMessageArrow.class, "message_arrow", 0, MedievalCommunications.instance, 64, 20, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, "hanging_message"), EntityHangingMessage.class, "hanging_message", 1, MedievalCommunications.instance, 160, Integer.MAX_VALUE, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, "hanging_dagger_message"), EntityHangingDaggerMessage.class, "hanging_dagger_message", 2, MedievalCommunications.instance, 160, Integer.MAX_VALUE, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, "villager_messager"), EntityVillagerMessager.class, "villager_messager", 3, MedievalCommunications.instance, 60, 20, false, Color.black.getRGB(), Color.white.getRGB());
+		registerEntity(EntityMessageArrow.class, "message_arrow", 64, 20, false);
+		registerEntity(EntityHangingMessage.class, "hanging_message", 160, Integer.MAX_VALUE, false);
+		registerEntity(EntityHangingDaggerMessage.class, "hanging_dagger_message", 160, Integer.MAX_VALUE, false);
+		registerEntity(EntityVillagerMessager.class, "villager_messager", 80, 3, true, Color.black.getRGB(), Color.white.getRGB());
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -33,6 +34,18 @@ public class ModEntities
 		RenderingRegistry.registerEntityRenderingHandler(EntityHangingMessage.class, RenderHangingMessage<EntityHangingMessage>::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityHangingDaggerMessage.class, RenderHangingDaggerMessage::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMessager.class, RenderVillagerMessager::new);
+	}
+	
+	private static int nextId = 0;
+	
+	protected static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates)
+	{
+		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, entityName), entityClass, entityName, nextId++, MedievalCommunications.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+	}
+
+	protected static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, int eggPrimary, int eggSecondary)
+	{
+		EntityRegistry.registerModEntity(new ResourceLocation(MedievalCommunications.MODID, entityName), entityClass, entityName, nextId++, MedievalCommunications.instance, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary, eggSecondary);
 	}
 	
 }

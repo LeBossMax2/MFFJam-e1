@@ -17,10 +17,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @EventBusSubscriber(modid = MedievalCommunications.MODID)
 public class ModItems
 {
-	public static final ItemDagger dagger = null;
-	public static final ItemWrittenPaper written_paper = null;
-	public static final ItemMessageArrow message_arrow = null;
-	public static final ItemSlimyPaper slimy_paper = null;
+	public static final ItemDagger DAGGER = null;
+	public static final ItemWrittenPaper WRITTEN_PAPER = null;
+	public static final ItemMessageArrow MESSAGE_ARROW = null;
+	public static final ItemSlimyPaper SLIMY_PAPER = null;
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
@@ -36,7 +36,7 @@ public class ModItems
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
-		registerItemRenders(dagger, written_paper, message_arrow, slimy_paper);
+		registerItemRenders(DAGGER, WRITTEN_PAPER, MESSAGE_ARROW, SLIMY_PAPER);
 	}
 	
 	protected static Item init(Item item, String name)

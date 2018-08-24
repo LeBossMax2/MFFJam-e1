@@ -81,7 +81,7 @@ public class EntityMessageArrow extends EntityArrow implements IThrowableEntity,
 	@Override
 	protected ItemStack getArrowStack()
 	{
-		ItemStack stack = new ItemStack(ModItems.message_arrow);
+		ItemStack stack = new ItemStack(ModItems.MESSAGE_ARROW);
 		stack.setTagCompound(this.itemData.copy());
 		return stack;
 	}
@@ -90,7 +90,7 @@ public class EntityMessageArrow extends EntityArrow implements IThrowableEntity,
 	{
 		if (!this.world.isRemote && this.world.getGameRules().getBoolean("doMobLoot"))
         {
-			ItemStack dropStack = new ItemStack(ModItems.written_paper);
+			ItemStack dropStack = new ItemStack(ModItems.WRITTEN_PAPER);
 			dropStack.setTagCompound(this.itemData.copy());
 			
 			this.entityDropItem(dropStack, 0.1F);

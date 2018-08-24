@@ -32,7 +32,7 @@ public class CommonProxy {
 	
 	public void init(FMLInitializationEvent event)
 	{
-		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.message_arrow, new BehaviorProjectileDispense()
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.MESSAGE_ARROW, new BehaviorProjectileDispense()
 		{
 			@Override
 			protected IProjectile getProjectileEntity(World world, IPosition position, ItemStack stack)

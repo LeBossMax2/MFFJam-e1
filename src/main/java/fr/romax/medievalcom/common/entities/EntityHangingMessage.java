@@ -111,7 +111,7 @@ public class EntityHangingMessage extends EntityHanging implements IEntityAdditi
 	
 	protected ItemStack getPage()
 	{
-		ItemStack paper = new ItemStack(this.isPageSlimy() ? ModItems.slimy_paper : ModItems.written_paper);
+		ItemStack paper = new ItemStack(this.isPageSlimy() ? ModItems.SLIMY_PAPER : ModItems.WRITTEN_PAPER);
 		paper.setTagCompound(this.itemData.copy());
 		return paper;
 	}

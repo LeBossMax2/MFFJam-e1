@@ -28,7 +28,7 @@ public class ItemDagger extends ItemSword
 		EnumHand otherHand = hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
 		ItemStack otherStack = player.getHeldItem(otherHand);
 		
-		if (!otherStack.isEmpty() && otherStack.hasTagCompound() && otherStack.getItem() == ModItems.written_paper)
+		if (!otherStack.isEmpty() && otherStack.hasTagCompound() && otherStack.getItem() == ModItems.WRITTEN_PAPER)
 		{
 	        ItemStack stack = player.getHeldItem(hand);
 			BlockPos hangingPos = pos.offset(facing);

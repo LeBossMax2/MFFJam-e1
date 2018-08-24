@@ -27,7 +27,7 @@ public class MedievalCommunications {
 	@SidedProxy(clientSide = CLIENT_PROXY, serverSide = SERVER_PROXY)
 	private static CommonProxy proxy;
 	
-	public static CreativeTabs TAB = new MedievalTab("medievalcom");
+	public static final CreativeTabs TAB = new MedievalTab("medievalcom");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

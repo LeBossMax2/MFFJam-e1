@@ -36,7 +36,7 @@ public class ItemMessageArrow extends ItemArrow
 
 		if (stack.hasTagCompound())
 		{
-			ItemStack page = new ItemStack(ModItems.written_paper);
+			ItemStack page = new ItemStack(ModItems.WRITTEN_PAPER);
 			ItemWrittenPaper.setContent(page, ItemWrittenPaper.getWritedText(stack), ItemWrittenPaper.getTitle(stack), ItemWrittenPaper.getAuthor(stack));
 			ItemStack arrow = new ItemStack(Items.ARROW);
 			stack.shrink(1);

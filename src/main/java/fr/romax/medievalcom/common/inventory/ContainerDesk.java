@@ -99,7 +99,7 @@ public class ContainerDesk extends Container
 
 	protected ItemStack writePageToStack(String pageContent, String title, String author)
 	{
-		ItemStack stack = new ItemStack(ModItems.written_paper);
+		ItemStack stack = new ItemStack(ModItems.WRITTEN_PAPER);
 		ItemWrittenPaper.setContent(stack, pageContent, title, author);
 		return stack;
 	}
