@@ -1,7 +1,7 @@
 [
 {
-  "modid": "mffjam1",
-  "name": "The Best MFF Jam first edition",
+  "modid": "medievalcommunications",
+  "name": "MedievalCommunications",
   "description": "This is our entry for the first editon of MFF Jam.",
   "version": "${version}",
   "mcversion": "${mcversion}",

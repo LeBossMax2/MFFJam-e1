@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "variants": {
+    	"part": {
+    		"true": {
+    			"model": "medievalcommunications:desk_main"
+    		},
+    		"false": {
+    			"model": "forge:multi-layer",
+    			"custom": {
+                    "base": "medievalcommunications:desk_sec_solid",
+    				"Solid": "medievalcommunications:desk_sec_solid",
+    				"Cutout": "medievalcommunications:desk_sec_cutout",
+    				"Translucent": "medievalcommunications:desk_sec_translucent"
+    			}
+    		}
+    	},
+    	"facing": {
+    		"north": { },
+    		"east": { "y": 90 },
+    		"south": { "y": 180 },
+    		"west": { "y": 270 }
+    	}
+    }
+}

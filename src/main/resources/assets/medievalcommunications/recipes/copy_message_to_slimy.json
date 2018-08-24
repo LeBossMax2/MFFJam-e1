@@ -1,0 +1,14 @@
+{
+	"type": "medievalcommunications:copy_tags_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:slime_ball"
+		}
+	],
+	"copy_ingredient": {
+		"item": "medievalcommunications:written_paper"
+	},
+	"result": {
+		"item": "medievalcommunications:slimy_paper"
+	}
+}

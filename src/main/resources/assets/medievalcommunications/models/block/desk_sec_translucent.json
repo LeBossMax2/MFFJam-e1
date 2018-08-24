@@ -1,0 +1,69 @@
+{
+	"__comment": "Designed by LeBossMax2 with Cubik Studio - https://cubik.studio",
+	"textures": {
+		"particle": "blocks/planks_spruce",
+		"ink": "medievalcommunications:blocks/ink"
+	},
+	"elements": [
+		{
+			"from": [ 4, 16, 7 ],
+			"to": [ 6, 18, 9 ],
+			"faces": {
+				"up": { "uv": [ 7, 12, 9, 14 ], "texture": "#ink", "cullface": "up" },
+				"north": { "uv": [ 10, 14, 12, 16 ], "texture": "#ink", "cullface": "up" },
+				"south": { "uv": [ 4, 14, 6, 16 ], "texture": "#ink", "cullface": "up" },
+				"west": { "uv": [ 6, 14, 8, 16 ], "texture": "#ink", "cullface": "up" },
+				"east": { "uv": [ 8, 14, 10, 16 ], "texture": "#ink", "cullface": "up" }
+			}
+		},
+		{
+			"from": [ 4.5, 18, 7.5 ],
+			"to": [ 5.5, 19, 8.5 ],
+			"faces": {
+				"up": { "uv": [ 7, 9, 8, 10 ], "texture": "#ink", "cullface": "up" },
+				"north": { "uv": [ 6, 9, 7, 10 ], "texture": "#ink", "cullface": "up" },
+				"south": { "uv": [ 8, 9, 9, 10 ], "texture": "#ink", "cullface": "up" },
+				"west": { "uv": [ 7, 9, 8, 10 ], "texture": "#ink", "cullface": "up" },
+				"east": { "uv": [ 9, 9, 10, 10 ], "texture": "#ink", "cullface": "up" }
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation":  [ -20, 180, 0 ],
+			"translation":  [ -2.4, -1.5, 0 ],
+			"scale":  [ 0.3, 0.3, 0.3 ]
+		},
+		"thirdperson_lefthand": {
+			"rotation":  [ -20, 180, 0 ],
+			"translation":  [ 2.4, -1.5, 0 ],
+			"scale":  [ 0.3, 0.3, 0.3 ]
+		},
+		"firstperson_righthand": {
+			"rotation":  [ 0, 140, 0 ],
+			"translation":  [ -2, 1, 0 ],
+			"scale":  [ 0.3, 0.3, 0.3 ]
+		},
+		"firstperson_lefthand": {
+			"rotation":  [ 0, 140, 0 ],
+			"translation":  [ 1, 1, 4 ],
+			"scale":  [ 0.3, 0.3, 0.3 ]
+		},
+		"gui": {
+			"rotation":  [ 30, 225, 0 ],
+			"translation":  [ -2.6, -2, 0 ],
+			"scale":  [ 0.45, 0.45, 0.45 ]
+		},
+		"head": {
+			"translation":  [ 8, 0, 0 ]
+		},
+		"ground": {
+			"translation":  [ 2, 3, 0 ],
+			"scale":  [ 0.25, 0.25, 0.25 ]
+		},
+		"fixed": {
+			"translation":  [ 4, -2, 0 ],
+			"scale":  [ 0.5, 0.5, 0.5 ]
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"type": "medievalcommunications:copy_tags_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:arrow"
+		},
+		{
+			"item": "minecraft:string"
+		}
+	],
+	"copy_ingredient": {
+		"item": "medievalcommunications:written_paper"
+	},
+	"result": {
+		"item": "medievalcommunications:message_arrow"
+	}
+}
