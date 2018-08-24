@@ -11,15 +11,17 @@ public class MessageWritePage implements IServerMessage
 	private int windowId;
 	private String pageContent;
 	private String title;
+	private String author;
 	
 	public MessageWritePage()
 	{ }
 	
-	public MessageWritePage(int windowId, String pageContent, String title)
+	public MessageWritePage(int windowId, String pageContent, String title, String author)
 	{
 		this.windowId = windowId;
 		this.pageContent = pageContent;
 		this.title = title;
+		this.author = author;
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class MessageWritePage implements IServerMessage
 		buf.writeInt(this.windowId);
 		ByteBufUtils.writeUTF8String(buf, this.pageContent);
 		ByteBufUtils.writeUTF8String(buf, this.title);
+		ByteBufUtils.writeUTF8String(buf, this.author);
 	}
 	
 	@Override
@@ -36,6 +39,7 @@ public class MessageWritePage implements IServerMessage
 		this.windowId = buf.readInt();
 		this.pageContent = ByteBufUtils.readUTF8String(buf);
 		this.title = ByteBufUtils.readUTF8String(buf);
+		this.author = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
@@ -45,7 +49,7 @@ public class MessageWritePage implements IServerMessage
 		{
 			ContainerDesk desk = (ContainerDesk)sender.openContainer;
 			
-			desk.writePage(sender, this.pageContent, this.title);
+			desk.writePage(sender, this.pageContent, this.title, this.author);
 		}
 	}
 	

@@ -92,11 +92,11 @@ public class ContainerDesk extends Container
 		return ItemStack.EMPTY;
 	}
 
-	public boolean writePage(EntityPlayer sender, String pageContent, String title)
+	public boolean writePage(EntityPlayer sender, String pageContent, String title, String author)
 	{
-		if (!pageContent.isEmpty() && !title.isEmpty() && pageContent.length() < 512 && title.length() < 16 && this.getSlot(0).getHasStack())
+		if (!pageContent.isEmpty() && !title.isEmpty() && pageContent.length() <= 480 && title.length() <= 16 && author.length() <= 16 && this.getSlot(0).getHasStack())
 		{
-			if (sender.addItemStackToInventory(this.writePageToStack(pageContent, title, sender.getName())))
+			if (sender.addItemStackToInventory(this.writePageToStack(pageContent, title, author)))
 			{
 				this.getSlot(0).decrStackSize(1);
 				return true;

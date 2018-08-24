@@ -78,7 +78,11 @@ public class ItemWrittenPaper extends Item
 		{
 			String author = getAuthor(stack);
 			
-			if (!StringUtils.isNullOrEmpty(author))
+			if (StringUtils.isNullOrEmpty(author))
+			{
+				tooltip.add(TextFormatting.GRAY + I18n.format("page.byUnknownAuthor"));
+			}
+			else
 			{
 				tooltip.add(TextFormatting.GRAY + I18n.format("page.byAuthor", author));
 			}

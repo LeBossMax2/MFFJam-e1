@@ -14,3 +14,4 @@ page.signButton=Sign
 page.editTitle=Enter Page Title:
 page.finalizeWarning=Note! When you sign the page, it will no longer be editable.
 page.byAuthor=by %s
+page.byUnknownAuthor=by an unknown author

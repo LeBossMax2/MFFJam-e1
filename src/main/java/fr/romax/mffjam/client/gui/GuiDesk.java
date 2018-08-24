@@ -7,6 +7,8 @@ import static fr.romax.mffjam.client.gui.GuiReadMessage.PAPER_ICON_WIDTH;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import fr.romax.mffjam.MFFJam;
 import fr.romax.mffjam.common.ModNetwork;
 import fr.romax.mffjam.common.blocks.TileEntityDesk;
@@ -36,7 +38,8 @@ public class GuiDesk extends GuiContainer
 	private int updateCount;
 	private boolean isListening = false;
 	/** Determines if the signing screen is open */
-	private boolean gettingSigned;
+	private boolean gettingFinilized = false;
+	private boolean focusTitle = true;
 	private String title = "";
 	private String signedName;
 	private String pageContent = "";
@@ -80,8 +83,8 @@ public class GuiDesk extends GuiContainer
 		boolean hasPaper = this.hasPaper();
 		
 		this.buttonSign.visible = hasPaper;
-		this.buttonSign.enabled = !this.pageContent.isEmpty() && (!this.gettingSigned || !this.title.isEmpty() );
-		this.buttonCancel.visible = this.gettingSigned && hasPaper;
+		this.buttonSign.enabled = !this.pageContent.isEmpty() && (!this.gettingFinilized || !this.title.isEmpty());
+		this.buttonCancel.visible = this.gettingFinilized && hasPaper;
 	}
 	
 	@Override
@@ -93,6 +96,19 @@ public class GuiDesk extends GuiContainer
 		if (mouseX > x && mouseX <= x + PAPER_ICON_WIDTH && mouseY > this.guiTop + 16 && mouseY <= this.guiTop + 16 + PAPER_ICON_HEIGHT)
 		{
 			this.isListening = true;
+			
+			if (this.gettingFinilized)
+			{
+				if (mouseY > this.guiTop + BORDER + 34 && mouseY < this.guiTop + BORDER + 36 + this.fontRenderer.FONT_HEIGHT)
+				{
+					this.focusTitle = true;
+				}
+				else if (mouseY > this.guiTop + BORDER + 44 && mouseY < this.guiTop + BORDER + 46 + this.fontRenderer.FONT_HEIGHT)
+				{
+					this.focusTitle = false;
+				}
+				
+			}
 		}
 		else
 		{
@@ -108,9 +124,9 @@ public class GuiDesk extends GuiContainer
 		{
 			if (keyCode == 1)
 			{
-				if (this.gettingSigned)
+				if (this.gettingFinilized)
 				{
-					this.gettingSigned = false;
+					this.gettingFinilized = false;
 				}
 				else
 				{
@@ -119,20 +135,30 @@ public class GuiDesk extends GuiContainer
 			}
 			else
 			{
-				if (this.gettingSigned)
+				if (this.gettingFinilized)
 				{
 					switch (keyCode)
 					{
-					case 14:
+					case Keyboard.KEY_BACK:
 						
-						if (!this.title.isEmpty())
+						if (this.focusTitle)
 						{
-							this.title = this.title.substring(0, this.title.length() - 1);
-							this.updateState();
+							if (!this.title.isEmpty())
+							{
+								this.title = this.title.substring(0, this.title.length() - 1);
+								this.updateState();
+							}
+						}
+						else
+						{
+							if (!this.signedName.isEmpty())
+							{
+								this.signedName = this.signedName.substring(0, this.signedName.length() - 1);
+							}
 						}
 						return;
-					case 28:
-					case 156:
+					case Keyboard.KEY_RETURN:
+					case Keyboard.KEY_NUMPADENTER:
 						
 						if (!this.title.isEmpty())
 						{
@@ -140,12 +166,24 @@ public class GuiDesk extends GuiContainer
 						}
 						
 						return;
+					case Keyboard.KEY_TAB:
+						this.focusTitle = !this.focusTitle;
 					default:
 						
-						if (this.title.length() < 16 && ChatAllowedCharacters.isAllowedCharacter(typedChar))
+						if (this.focusTitle)
 						{
-							this.title = this.title + Character.toString(typedChar);
-							this.updateState();
+							if (this.title.length() < 16 && ChatAllowedCharacters.isAllowedCharacter(typedChar))
+							{
+								this.title = this.title + Character.toString(typedChar);
+								this.updateState();
+							}
+						}
+						else
+						{
+							if (this.signedName.length() < 16 && ChatAllowedCharacters.isAllowedCharacter(typedChar))
+							{
+								this.signedName += Character.toString(typedChar);
+							}
 						}
 					}
 				}
@@ -192,7 +230,7 @@ public class GuiDesk extends GuiContainer
 		String newContent = this.pageContent + toInsert;
 		int i = this.fontRenderer.getWordWrappedHeight(newContent + "" + TextFormatting.BLACK + "_", PAPER_ICON_WIDTH - 2 * BORDER);
 		
-		if (i <= PAPER_ICON_HEIGHT - 2 * BORDER && newContent.length() < 512)
+		if (i <= PAPER_ICON_HEIGHT - 2 * BORDER && newContent.length() < 480)
 		{
 			this.pageContent = newContent;
 		}
@@ -200,7 +238,7 @@ public class GuiDesk extends GuiContainer
 	
 	private void sendPageToServer()
 	{
-		ModNetwork.MOD_CHANNEL.sendToServer(new MessageWritePage(this.inventorySlots.windowId, this.pageContent, this.title));
+		ModNetwork.MOD_CHANNEL.sendToServer(new MessageWritePage(this.inventorySlots.windowId, this.pageContent, this.title, this.signedName));
 	}
 	
 	@Override
@@ -224,27 +262,31 @@ public class GuiDesk extends GuiContainer
 			int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
 			this.drawTexturedModalRect(x, this.guiTop + 16, 0, 0, PAPER_ICON_WIDTH, PAPER_ICON_HEIGHT);
 			
-			if (this.gettingSigned)
+			if (this.gettingFinilized)
 			{
 				String displayTitle = this.title;
+				//Use unknown author when the author field don't have the focus
+				boolean useUnknownAuthor = this.signedName.isEmpty() && (!this.isListening || this.focusTitle);
+				String authorName = useUnknownAuthor ? I18n.format("page.byUnknownAuthor") : I18n.format("page.byAuthor",  this.signedName);
+				String authorSting = authorName;
 				
 				if (this.isListening)
 				{
-					if (this.updateCount / 6 % 2 == 0)
+					String cursor = (this.updateCount / 6 % 2 == 0 ? TextFormatting.BLACK : TextFormatting.GRAY) + "_";
+					if (this.focusTitle)
 					{
-						displayTitle = displayTitle + "" + TextFormatting.BLACK + "_";
+						displayTitle += cursor;
 					}
 					else
 					{
-						displayTitle = displayTitle + "" + TextFormatting.GRAY + "_";
+						authorSting += cursor;
 					}
 				}
 				
 				String editText = I18n.format("page.editTitle");
-				this.fontRenderer.drawString(editText, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(editText)) / 2, this.guiTop + BORDER + 19, 0);
-				this.fontRenderer.drawString(displayTitle, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(displayTitle)) / 2, this.guiTop + BORDER + 35, 0);
-				String authorText = I18n.format("page.byAuthor", this.signedName);
-				this.fontRenderer.drawString(TextFormatting.DARK_GRAY + authorText, x + 2 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(authorText)) / 2, this.guiTop + BORDER + 45, 0);
+				this.fontRenderer.drawString(editText, x + 1 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(editText)) / 2, this.guiTop + BORDER + 19, 0);
+				this.fontRenderer.drawString(displayTitle, x + 1 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(this.title)) / 2, this.guiTop + BORDER + 35, 0);
+				this.fontRenderer.drawString(TextFormatting.DARK_GRAY + authorSting, x + 1 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(authorName)) / 2, this.guiTop + BORDER + 45, 0);
 				this.fontRenderer.drawSplitString(I18n.format("page.finalizeWarning"), x + 2 + BORDER, this.guiTop + BORDER + 67, PAPER_ICON_WIDTH - 2 * BORDER, 0);
 			}
 			else
@@ -257,13 +299,9 @@ public class GuiDesk extends GuiContainer
 					{
 						displayText = displayText + "_";
 					}
-					else if (this.updateCount / 6 % 2 == 0)
-					{
-						displayText = displayText + "" + TextFormatting.BLACK + "_";
-					}
 					else
 					{
-						displayText = displayText + "" + TextFormatting.GRAY + "_";
+						displayText += (this.updateCount / 6 % 2 == 0 ? TextFormatting.BLACK : TextFormatting.GRAY) + "_";
 					}
 				}
 				
@@ -287,18 +325,18 @@ public class GuiDesk extends GuiContainer
 			{
 				if (!this.pageContent.isEmpty())
 				{
-					if (this.gettingSigned && !this.title.isEmpty())
+					if (this.gettingFinilized && !this.title.isEmpty())
 					{
 						this.sendPageToServer();
 					}
-					this.gettingSigned = true;
+					this.gettingFinilized = true;
 				}
 				this.isListening = true;
 			}
 		}
 		else if (button == this.buttonCancel)
 		{
-			this.gettingSigned = false;
+			this.gettingFinilized = false;
 			if (this.hasPaper()) this.isListening = true;
 		}
 	}
