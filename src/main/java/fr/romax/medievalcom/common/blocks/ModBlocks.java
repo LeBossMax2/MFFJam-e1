@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -50,7 +49,7 @@ public class ModBlocks
 	
 	protected static Block init(Block block, String name)
 	{
-		block.setRegistryName(new ResourceLocation(MedievalCommunications.MODID, name));
+		block.setRegistryName(MedievalCommunications.MODID, name);
 		block.setTranslationKey(name);
 		block.setCreativeTab(MedievalCommunications.TAB);
 		return block;

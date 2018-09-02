@@ -3,7 +3,7 @@ package fr.romax.medievalcom.common.network;
 import fr.romax.medievalcom.common.inventory.ContainerDesk;
 import fr.romax.medievalcom.common.network.handlers.IServerMessage;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class MessageWritePage implements IServerMessage
@@ -43,7 +43,7 @@ public class MessageWritePage implements IServerMessage
 	}
 
 	@Override
-	public void onServerReceive(EntityPlayer sender)
+	public void onServerReceive(EntityPlayerMP sender)
 	{
 		if (sender.openContainer.windowId == this.windowId && sender.openContainer instanceof ContainerDesk)
 		{

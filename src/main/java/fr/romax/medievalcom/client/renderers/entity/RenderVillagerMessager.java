@@ -1,7 +1,7 @@
 package fr.romax.medievalcom.client.renderers.entity;
 
 import fr.romax.medievalcom.MedievalCommunications;
-import fr.romax.medievalcom.common.entities.EntityVillagerMessager;
+import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import net.minecraft.client.model.ModelVillager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderVillagerMessager extends RenderLiving<EntityVillagerMessager>
+public class RenderVillagerMessager extends RenderLiving<EntityVillagerMessenger>
 {
     private static final ResourceLocation MESSAGER_TEXTURE = new ResourceLocation(MedievalCommunications.MODID, "textures/entity/villager/messenger.png");
 	
@@ -20,7 +20,7 @@ public class RenderVillagerMessager extends RenderLiving<EntityVillagerMessager>
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityVillagerMessager entity)
+	protected ResourceLocation getEntityTexture(EntityVillagerMessenger entity)
 	{
 		return MESSAGER_TEXTURE;
 	}
@@ -34,7 +34,7 @@ public class RenderVillagerMessager extends RenderLiving<EntityVillagerMessager>
      * Allows the render to do state modifications necessary before the model is rendered.
      */
 	@Override
-    protected void preRenderCallback(EntityVillagerMessager entitylivingbaseIn, float partialTickTime)
+    protected void preRenderCallback(EntityVillagerMessenger entitylivingbaseIn, float partialTickTime)
     {
         float f = 0.9375F;
 

@@ -13,9 +13,13 @@ itemGroup.medievalcom=Medieval Communications
 entity.message_arrow.name=Flèche message
 entity.hanging_message.name=Message suspendu
 entity.hanging_dagger_message.name=Message suspendu par une dague
+entity.villager_messenger.name=Messager
 
 page.signButton=Signer
 page.editTitle=Titre de la page :
 page.finalizeWarning=Attention ! La page n'est plus modifiable une fois signée.
 page.byAuthor=de %s
 page.byUnknownAuthor=d'un auteur inconnu
+
+gui.messenger.send=Envoyer
+gui.messenger.addressee=Envoyer à %s

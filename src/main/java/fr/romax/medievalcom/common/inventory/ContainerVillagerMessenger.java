@@ -1,9 +1,10 @@
 package fr.romax.medievalcom.common.inventory;
 
 import fr.romax.medievalcom.MedievalCommunications;
-import fr.romax.medievalcom.common.entities.EntityVillagerMessager;
+import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import fr.romax.medievalcom.common.items.ItemWrittenPaper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -18,9 +19,9 @@ public class ContainerVillagerMessenger extends Container
 {
 	public static final ResourceLocation EMPTY_SLOT_EMERALD_ICON = new ResourceLocation(MedievalCommunications.MODID, "items/empty_slot_emerald");
 	
-	private final EntityVillagerMessager entity;
+	private final EntityVillagerMessenger entity;
 	
-	public ContainerVillagerMessenger(EntityVillagerMessager entity, InventoryPlayer playerInv)
+	public ContainerVillagerMessenger(EntityVillagerMessenger entity, InventoryPlayer playerInv)
 	{
 		this.entity = entity;
 		
@@ -30,6 +31,12 @@ public class ContainerVillagerMessenger extends Container
 			public boolean isItemValid(int slot, ItemStack stack)
 			{
 				return slot == 0 ? stack.getItem() instanceof ItemWrittenPaper : stack.getItem() == Items.EMERALD;
+			}
+			
+			@Override
+			public int getSlotLimit(int slot)
+			{
+				return 1;
 			}
 		};
 		
@@ -55,6 +62,26 @@ public class ContainerVillagerMessenger extends Container
 		for (int i = 0; i < 9; ++i)
 		{
 			this.addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 142));
+		}
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer player)
+	{
+		super.onContainerClosed(player);
+
+		if (!player.world.isRemote)
+		{
+			if (!player.isEntityAlive() || player instanceof EntityPlayerMP && ((EntityPlayerMP) player).hasDisconnected())
+			{
+				if (this.getSlot(0).getHasStack()) player.dropItem(this.getSlot(0).getStack(), false);
+				if (this.getSlot(1).getHasStack()) player.dropItem(this.getSlot(1).getStack(), false);
+			}
+			else
+			{
+				player.inventory.placeItemBackInInventory(player.world, this.getSlot(0).getStack());
+				player.inventory.placeItemBackInInventory(player.world, this.getSlot(1).getStack());
+			}
 		}
 	}
 
@@ -88,13 +115,32 @@ public class ContainerVillagerMessenger extends Container
 			
 			if (currentStack.isEmpty())
 			{
-                slot.putStack(ItemStack.EMPTY);
-            }
+				slot.putStack(ItemStack.EMPTY);
+			}
 			else slot.onSlotChanged();
 			
 			return returnStack;
 		}
 		return ItemStack.EMPTY;
+	}
+
+	public boolean sendMessage(EntityPlayerMP sender, String addressee)
+	{
+		if (!addressee.isEmpty() && addressee.length() <= 16 && this.getSlot(0).getHasStack() && this.getSlot(1).getHasStack())
+		{
+			EntityPlayer addressePlayer = sender.world.getPlayerEntityByName(addressee);
+			
+			if (addressePlayer != null)
+			{
+				this.entity.sendMessage(addressePlayer, this.getSlot(0).decrStackSize(1));
+				this.getSlot(1).decrStackSize(1);
+				
+				sender.closeScreen();
+				
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package fr.romax.medievalcom.common.entities;
 
-import fr.romax.medievalcom.MedievalCommunications;
+import java.util.UUID;
+
 import fr.romax.medievalcom.common.GuiHandler;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
@@ -11,9 +12,13 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class EntityVillagerMessager extends EntityAgeable implements INpc {
-
-	public EntityVillagerMessager(World worldIn) {
+public class EntityVillagerMessenger extends EntityAgeable implements INpc
+{
+	protected UUID targetId;
+	protected ItemStack message;
+	
+	public EntityVillagerMessenger(World worldIn)
+	{
 		super(worldIn);
         this.setSize(0.6F, 1.95F);
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
@@ -22,7 +27,7 @@ public class EntityVillagerMessager extends EntityAgeable implements INpc {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
-		return new EntityVillagerMessager(ageable.world);
+		return new EntityVillagerMessenger(ageable.world);
 	}
 	
 	@Override
@@ -49,6 +54,12 @@ public class EntityVillagerMessager extends EntityAgeable implements INpc {
         {
             return super.processInteract(player, hand);
         }
+	}
+
+	public void sendMessage(EntityPlayer addresse, ItemStack message)
+	{
+		this.targetId = addresse.getUniqueID();
+		this.message = message;
 	}
 	
 }

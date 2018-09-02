@@ -1,7 +1,5 @@
 package fr.romax.medievalcom.common.entities;
 
-import java.awt.Color;
-
 import fr.romax.medievalcom.MedievalCommunications;
 import fr.romax.medievalcom.client.renderers.entity.RenderHangingDaggerMessage;
 import fr.romax.medievalcom.client.renderers.entity.RenderHangingMessage;
@@ -24,7 +22,7 @@ public class ModEntities
 		registerEntity(EntityMessageArrow.class, "message_arrow", 64, 20, false);
 		registerEntity(EntityHangingMessage.class, "hanging_message", 160, Integer.MAX_VALUE, false);
 		registerEntity(EntityHangingDaggerMessage.class, "hanging_dagger_message", 160, Integer.MAX_VALUE, false);
-		registerEntity(EntityVillagerMessager.class, "villager_messager", 80, 3, true, Color.black.getRGB(), Color.white.getRGB());
+		registerEntity(EntityVillagerMessenger.class, "villager_messenger", 80, 3, true, 0x111122, 0xBD8B72);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -33,7 +31,7 @@ public class ModEntities
 		RenderingRegistry.registerEntityRenderingHandler(EntityMessageArrow.class, RenderMessageArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityHangingMessage.class, RenderHangingMessage<EntityHangingMessage>::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityHangingDaggerMessage.class, RenderHangingDaggerMessage::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMessager.class, RenderVillagerMessager::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMessenger.class, RenderVillagerMessager::new);
 	}
 	
 	private static int nextId = 0;

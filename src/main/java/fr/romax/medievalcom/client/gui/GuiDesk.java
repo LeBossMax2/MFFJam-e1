@@ -92,7 +92,6 @@ public class GuiDesk extends GuiContainer
 	{
 		int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
 		
-		this.drawTexturedModalRect(x, this.guiTop + 16, 0, 0, PAPER_ICON_WIDTH, PAPER_ICON_HEIGHT);
 		if (mouseX > x && mouseX <= x + PAPER_ICON_WIDTH && mouseY > this.guiTop + 16 && mouseY <= this.guiTop + 16 + PAPER_ICON_HEIGHT)
 		{
 			this.isListening = true;

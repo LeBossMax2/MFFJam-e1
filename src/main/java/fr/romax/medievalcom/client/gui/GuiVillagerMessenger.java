@@ -1,14 +1,12 @@
 package fr.romax.medievalcom.client.gui;
 
 import static fr.romax.medievalcom.client.gui.GuiReadMessage.BORDER;
-import static fr.romax.medievalcom.client.gui.GuiReadMessage.DESK_ICONS;
-import static fr.romax.medievalcom.client.gui.GuiReadMessage.PAPER_ICON_HEIGHT;
 import static fr.romax.medievalcom.client.gui.GuiReadMessage.PAPER_ICON_WIDTH;
 
 import java.io.IOException;
 
 import fr.romax.medievalcom.MedievalCommunications;
-import fr.romax.medievalcom.common.entities.EntityVillagerMessager;
+import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import fr.romax.medievalcom.common.inventory.ContainerVillagerMessenger;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,17 +25,17 @@ public class GuiVillagerMessenger extends GuiContainer
 {
 	
 	private static final ResourceLocation BACKGROUND = new ResourceLocation(MedievalCommunications.MODID, "textures/gui/container/villager_messenger.png");
-	private final EntityVillagerMessager entity;
+	private final EntityVillagerMessenger entity;
 	private final String inventoryName;
 	
 	/** Update ticks since the gui was opened */
 	private int updateCount;
 	private boolean isListening = false;
-	private String pageContent = "";
+	private String addressee = "";
 	
 	private GuiButton buttonSend;
 	
-	public GuiVillagerMessenger(EntityVillagerMessager entity, InventoryPlayer playerInv)
+	public GuiVillagerMessenger(EntityVillagerMessenger entity, InventoryPlayer playerInv)
 	{
 		super(new ContainerVillagerMessenger(entity, playerInv));
 		this.entity = entity;
@@ -48,7 +46,7 @@ public class GuiVillagerMessenger extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
-		this.buttonSend = this.addButton(new GuiButton(1, this.width / 2 + 2, this.guiTop + 136, 98, 20, I18n.format("gui.messenger.send")));
+		this.buttonSend = this.addButton(new GuiButton(1, this.width / 2 + 2, this.guiTop + 51, 80, 20, I18n.format("gui.messenger.send")));
 	}
 	
 	@Override
@@ -65,16 +63,13 @@ public class GuiVillagerMessenger extends GuiContainer
 	
 	protected void updateState()
 	{
-		this.buttonSend.visible = !this.pageContent.isEmpty() && this.hasItems();
+		this.buttonSend.enabled = !this.addressee.isEmpty() && this.hasItems();
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
 	{
-		int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
-		
-		this.drawTexturedModalRect(x, this.guiTop + 16, 0, 0, PAPER_ICON_WIDTH, PAPER_ICON_HEIGHT);
-		if (mouseX > x && mouseX <= x + PAPER_ICON_WIDTH && mouseY > this.guiTop + 16 && mouseY <= this.guiTop + 16 + PAPER_ICON_HEIGHT)
+		if (mouseX > this.guiLeft && mouseX <= this.guiLeft + this.xSize && mouseY > this.guiTop && mouseY <= this.guiTop + 40)
 		{
 			this.isListening = true;
 		}
@@ -105,9 +100,9 @@ public class GuiVillagerMessenger extends GuiContainer
 					switch (keyCode)
 					{
 					case 14:
-						if (!this.pageContent.isEmpty())
+						if (!this.addressee.isEmpty())
 						{
-							this.pageContent = this.pageContent.substring(0, this.pageContent.length() - 1);
+							this.addressee = this.addressee.substring(0, this.addressee.length() - 1);
 						}
 						
 						return;
@@ -133,11 +128,11 @@ public class GuiVillagerMessenger extends GuiContainer
 	
 	private void insertIntoPage(String toInsert)
 	{
-		String newContent = this.pageContent + toInsert;
+		String newContent = this.addressee + toInsert;
 		
 		if (newContent.length() <= 16)
 		{
-			this.pageContent = newContent;
+			this.addressee = newContent;
 		}
 	}
 	
@@ -161,27 +156,29 @@ public class GuiVillagerMessenger extends GuiContainer
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(BACKGROUND);
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-		if (this.hasItems())
+		
+		int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
+		
+		String displayAddressee = this.addressee;
+		
+		if (this.isListening)
 		{
-			int x = this.guiLeft + (this.xSize - PAPER_ICON_WIDTH) / 2;
-			
-			String displayText = this.pageContent;
-			
-			if (this.isListening)
+			if (this.fontRenderer.getBidiFlag())
 			{
-				if (this.fontRenderer.getBidiFlag())
-				{
-					displayText = displayText + "_";
-				}
-				else
-				{
-					displayText += (this.updateCount / 6 % 2 == 0 ? TextFormatting.BLACK : TextFormatting.GRAY) + "_";
-				}
+				displayAddressee = displayAddressee + "_";
 			}
-
-			String sendToText = I18n.format("gui.messenger.sendTo",  displayText);
-			this.fontRenderer.drawString(sendToText, x + 1 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(sendToText)) / 2, this.guiTop + BORDER + 19, 0);
+			else
+			{
+				displayAddressee += (this.updateCount / 6 % 2 == 0 ? TextFormatting.BLACK : TextFormatting.GRAY) + "_";
+			}
 		}
+		else if (displayAddressee.isEmpty())
+		{
+			displayAddressee += TextFormatting.DARK_GRAY + "_";
+		}
+
+		String sendToText = I18n.format("gui.messenger.addressee",  displayAddressee);
+		this.fontRenderer.drawString(sendToText, x + 1 + (PAPER_ICON_WIDTH - this.fontRenderer.getStringWidth(sendToText)) / 2, this.guiTop + BORDER + 19, 0);
 	}
 	
 	@Override
@@ -197,14 +194,11 @@ public class GuiVillagerMessenger extends GuiContainer
 	{
 		if (button == this.buttonSend)
 		{
-			if (this.hasItems())
+			if (this.hasItems() && !this.addressee.isEmpty())
 			{
-				if (!this.pageContent.isEmpty())
-				{
-					this.sendPageToServer();
-				}
-				this.isListening = true;
+				this.sendPageToServer();
 			}
+			this.isListening = true;
 		}
 	}
 	

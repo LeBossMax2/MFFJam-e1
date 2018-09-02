@@ -6,7 +6,7 @@ import fr.romax.medievalcom.client.gui.GuiReadMessage;
 import fr.romax.medievalcom.client.gui.GuiVillagerMessenger;
 import fr.romax.medievalcom.common.blocks.TileEntityDesk;
 import fr.romax.medievalcom.common.entities.EntityHangingMessage;
-import fr.romax.medievalcom.common.entities.EntityVillagerMessager;
+import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import fr.romax.medievalcom.common.inventory.ContainerDesk;
 import fr.romax.medievalcom.common.inventory.ContainerVillagerMessenger;
 import fr.romax.medievalcom.common.items.ItemWrittenPaper;
@@ -73,9 +73,9 @@ public class GuiHandler implements IGuiHandler
 			{
 				return new GuiReadMessage(((EntityHangingMessage)targetEntity).pageContent());
 			}
-			else if (targetEntity instanceof EntityVillagerMessager)
+			else if (targetEntity instanceof EntityVillagerMessenger)
 			{
-				return new GuiVillagerMessenger((EntityVillagerMessager)targetEntity, player.inventory);
+				return new GuiVillagerMessenger((EntityVillagerMessenger)targetEntity, player.inventory);
 			}
 		}
 		return null;
@@ -98,9 +98,9 @@ public class GuiHandler implements IGuiHandler
 		case ENTITY:
 			Entity targetEntity = world.getEntityByID(x);
 			
-			if (targetEntity instanceof EntityVillagerMessager)
+			if (targetEntity instanceof EntityVillagerMessenger)
 			{
-				return new ContainerVillagerMessenger((EntityVillagerMessager)targetEntity, player.inventory);
+				return new ContainerVillagerMessenger((EntityVillagerMessenger)targetEntity, player.inventory);
 			}
 		}
 		return null;
