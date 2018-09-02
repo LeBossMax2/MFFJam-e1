@@ -6,8 +6,10 @@ import static fr.romax.medievalcom.client.gui.GuiReadMessage.PAPER_ICON_WIDTH;
 import java.io.IOException;
 
 import fr.romax.medievalcom.MedievalCommunications;
+import fr.romax.medievalcom.common.ModNetwork;
 import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import fr.romax.medievalcom.common.inventory.ContainerVillagerMessenger;
+import fr.romax.medievalcom.common.network.MessageSendMessenger;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -138,7 +140,7 @@ public class GuiVillagerMessenger extends GuiContainer
 	
 	private void sendPageToServer()
 	{
-		
+		ModNetwork.MOD_CHANNEL.sendToServer(new MessageSendMessenger(this.inventorySlots.windowId, this.addressee));
 	}
 	
 	@Override
@@ -198,7 +200,7 @@ public class GuiVillagerMessenger extends GuiContainer
 			{
 				this.sendPageToServer();
 			}
-			this.isListening = true;
+			this.isListening = false;
 		}
 	}
 	

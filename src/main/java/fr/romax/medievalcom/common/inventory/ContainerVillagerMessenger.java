@@ -45,7 +45,15 @@ public class ContainerVillagerMessenger extends Container
 		pageSlot.setBackgroundName(ContainerDesk.EMPTY_SLOT_ICON.toString());
 		this.addSlotToContainer(pageSlot);
 		
-		Slot emeraldSlot = new SlotItemHandler(villagerInv, 1, 62, 53);
+		Slot emeraldSlot = new SlotItemHandler(villagerInv, 1, 62, 53)
+		{
+			@Override
+			public void onSlotChanged()
+			{
+				super.onSlotChanged();
+				entity.verifySellingItem(this.getStack());
+			}
+		};
 		emeraldSlot.setBackgroundName(EMPTY_SLOT_EMERALD_ICON.toString());
 		this.addSlotToContainer(emeraldSlot);
 		
@@ -69,6 +77,7 @@ public class ContainerVillagerMessenger extends Container
 	public void onContainerClosed(EntityPlayer player)
 	{
 		super.onContainerClosed(player);
+		this.entity.setCustomer(null);
 
 		if (!player.world.isRemote)
 		{
@@ -88,7 +97,7 @@ public class ContainerVillagerMessenger extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return this.entity.isEntityAlive() && player.getDistanceSq(this.entity) <= 64.0D;
+		return this.entity.isEntityAlive() && player.getDistanceSq(this.entity) <= 64.0D && this.entity.getCustomer() == player;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package fr.romax.medievalcom.common;
 
 import fr.romax.medievalcom.MedievalCommunications;
+import fr.romax.medievalcom.common.network.MessageSendMessenger;
 import fr.romax.medievalcom.common.network.MessageWritePage;
 import fr.romax.medievalcom.common.network.handlers.ClientMessageHandler;
 import fr.romax.medievalcom.common.network.handlers.IClientMessage;
@@ -22,6 +23,8 @@ public class ModNetwork
 	{
 		next();
 		registerServer(MessageWritePage.class);
+		next();
+		registerServer(MessageSendMessenger.class);
 	}
 	
 	private static int lastIndex = 0;
