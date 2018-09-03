@@ -13,7 +13,12 @@ itemGroup.medievalcom=Medieval Communications
 entity.message_arrow.name=Message Arrow
 entity.hanging_message.name=Hanging Message
 entity.hanging_dagger_message.name=Hanging Message With A Dagger
-entity.villager_messenger.name=Envoy
+entity.villager_messenger.name=Messenger
+
+entity.villager_messenger.messenger=Messenger
+entity.villager_messenger.envoy=Envoy
+entity.villager_messenger.secretAgent=Secret Agent
+entity.villager_messenger.spy=Spy
 
 page.signButton=Sign
 page.editTitle=Enter Page Title:

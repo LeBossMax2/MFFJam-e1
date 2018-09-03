@@ -28,7 +28,7 @@ public class GuiVillagerMessenger extends GuiContainer
 	
 	private static final ResourceLocation BACKGROUND = new ResourceLocation(MedievalCommunications.MODID, "textures/gui/container/villager_messenger.png");
 	private final EntityVillagerMessenger entity;
-	private final String inventoryName;
+	private final String inventoryName, entityName;
 	
 	/** Update ticks since the gui was opened */
 	private int updateCount;
@@ -41,6 +41,7 @@ public class GuiVillagerMessenger extends GuiContainer
 	{
 		super(new ContainerVillagerMessenger(entity, playerInv));
 		this.entity = entity;
+		this.entityName = entity.getDisplayName().getUnformattedText();
 		this.inventoryName = playerInv.getDisplayName().getUnformattedText();
 	}
 	
@@ -186,7 +187,7 @@ public class GuiVillagerMessenger extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-        String villagerName = this.entity.getName();
+        String villagerName = this.entityName;
         this.fontRenderer.drawString(villagerName, (this.xSize - this.fontRenderer.getStringWidth(villagerName)) / 2, 6, 4210752);
 		this.fontRenderer.drawString(this.inventoryName, 48, this.ySize - 93, 4210752);
 	}

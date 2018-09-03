@@ -8,6 +8,7 @@ import fr.romax.medievalcom.common.GuiHandler;
 import fr.romax.medievalcom.common.entities.ai.EntityAIMoveToMessageTarget;
 import fr.romax.medievalcom.common.entities.ai.EntityAILookAtCustomer;
 import fr.romax.medievalcom.common.entities.ai.EntityAITradeWithPlayer;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -52,10 +53,11 @@ import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityVillagerMessenger extends EntityAgeable implements INpc
+public class EntityVillagerMessenger extends EntityAgeable implements INpc, IEntityAdditionalSpawnData
 {
 	protected UUID targetId;
 	protected ItemStack message;
@@ -75,7 +77,7 @@ public class EntityVillagerMessenger extends EntityAgeable implements INpc
         this.setSize(0.6F, 1.95F);
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
         this.setCanPickUpLoot(true);
-        this.careerId = worldIn.rand.nextInt(4) + 1;
+        this.careerId = this.rand.nextInt(4) + 1;
 	}
 	
 	@Override
@@ -158,6 +160,18 @@ public class EntityVillagerMessenger extends EntityAgeable implements INpc
             { }
 			this.message = new ItemStack(compound.getCompoundTag("MessageItem"));
 		}
+	}
+
+	@Override
+	public void writeSpawnData(ByteBuf buffer)
+	{
+		buffer.writeInt(this.careerId);
+	}
+
+	@Override
+	public void readSpawnData(ByteBuf buffer)
+	{
+		this.careerId = buffer.readInt();
 	}
 	
 	@Override
@@ -333,18 +347,22 @@ public class EntityVillagerMessenger extends EntityAgeable implements INpc
         }
         else
         {
-            String name = null;
+            String name = "messenger";
 
             switch (this.careerId)
             {
             case 1:
                 name = "messenger";
+                break;
             case 2:
                 name = "envoy";
+                break;
             case 3:
                 name = "secretAgent";
+                break;
             case 4:
                 name = "spy";
+                break;
             }
             
             ITextComponent displayName = new TextComponentTranslation("entity.villager_messenger." + name, new Object[0]);

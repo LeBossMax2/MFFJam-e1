@@ -15,6 +15,11 @@ entity.hanging_message.name=Message suspendu
 entity.hanging_dagger_message.name=Message suspendu par une dague
 entity.villager_messenger.name=Messager
 
+entity.villager_messenger.messenger=Messager
+entity.villager_messenger.envoy=Envoyé
+entity.villager_messenger.secretAgent=Agent Secret
+entity.villager_messenger.spy=Espion
+
 page.signButton=Signer
 page.editTitle=Titre de la page :
 page.finalizeWarning=Attention ! La page n'est plus modifiable une fois signée.
