@@ -3,6 +3,7 @@ package fr.romax.medievalcom.common.world.gen.structure;
 import java.util.List;
 import java.util.Random;
 
+import fr.romax.medievalcom.common.entities.EntityVillagerMessenger;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSlab;
@@ -12,7 +13,9 @@ import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.BlockWoodSlab;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
@@ -20,13 +23,14 @@ import net.minecraft.world.gen.structure.StructureVillagePieces;
 import net.minecraft.world.gen.structure.StructureVillagePieces.PieceWeight;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Start;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Village;
+import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.IVillageCreationHandler;
 
 public class SpyVillageHouse extends Village
 {
-	
+    protected int villagersSpawned = 0;
 	
 	public SpyVillageHouse()
 	{ }
@@ -145,6 +149,48 @@ public class SpyVillageHouse extends Village
 		return true;
 	}
 	
+	@Override
+	protected void spawnVillagers(World worldIn, StructureBoundingBox structurebb, int x, int y, int z, int count)
+	{
+		if (this.villagersSpawned < count)
+        {
+            for (int i = this.villagersSpawned; i < count; ++i)
+            {
+                int spawnX = this.getXWithOffset(x + i, z);
+                int spawnY = this.getYWithOffset(y);
+                int spawnZ = this.getZWithOffset(x + i, z);
+                
+                if (!structurebb.isVecInside(new BlockPos(spawnX, spawnY, spawnZ)))
+                {
+                    break;
+                }
+                
+                ++this.villagersSpawned;
+                
+                if (!this.isZombieInfested)
+                {
+                    EntityVillagerMessenger villager = new EntityVillagerMessenger(worldIn);
+                    villager.setLocationAndAngles(spawnX + 0.5D, spawnY, spawnZ + 0.5D, 0.0F, 0.0F);
+                    worldIn.spawnEntity(villager);
+                }
+            }
+        }
+	}
+	
+	@Override
+	protected void writeStructureToNBT(NBTTagCompound tagCompound)
+	{
+		super.writeStructureToNBT(tagCompound);
+		tagCompound.setInteger("VCount", this.villagersSpawned); //Override the value
+	}
+	
+	@Override
+	protected void readStructureFromNBT(NBTTagCompound tagCompound, TemplateManager manager)
+	{
+		super.readStructureFromNBT(tagCompound, manager);
+		this.villagersSpawned = tagCompound.getInteger("VCount");
+	}
+	
 	public static enum CreationHandler implements IVillageCreationHandler
 	{
 		INSTANCE;
@@ -164,8 +210,8 @@ public class SpyVillageHouse extends Village
 		@Override
 		public Village buildComponent(PieceWeight villagePiece, Start startPiece, List<StructureComponent> pieces, Random random, int structureMinX, int structureMinY, int structureMinZ, EnumFacing facing, int componentType)
 		{
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, -3, 0, 5, 8, 5, facing);
-            return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(pieces, structureboundingbox) == null ? new SpyVillageHouse(startPiece, componentType, structureboundingbox, facing) : null;
+			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(structureMinX, structureMinY, structureMinZ, 0, -3, 0, 5, 8, 5, facing);
+			return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(pieces, structureboundingbox) == null ? new SpyVillageHouse(startPiece, componentType, structureboundingbox, facing) : null;
 		}
 		
 	}
